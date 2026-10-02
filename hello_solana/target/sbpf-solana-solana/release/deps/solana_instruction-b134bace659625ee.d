@@ -1,0 +1,10 @@
+/mnt/d/MySelf/Projects/Solana/hello_solana/target/sbpf-solana-solana/release/deps/solana_instruction-b134bace659625ee.d: /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/lib.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/account_meta.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/error.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/syscalls.rs
+
+/mnt/d/MySelf/Projects/Solana/hello_solana/target/sbpf-solana-solana/release/deps/libsolana_instruction-b134bace659625ee.rlib: /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/lib.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/account_meta.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/error.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/syscalls.rs
+
+/mnt/d/MySelf/Projects/Solana/hello_solana/target/sbpf-solana-solana/release/deps/libsolana_instruction-b134bace659625ee.rmeta: /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/lib.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/account_meta.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/error.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/syscalls.rs
+
+/home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/lib.rs:
+/home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/account_meta.rs:
+/home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/error.rs:
+/home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-instruction-2.3.3/src/syscalls.rs:

@@ -1,0 +1,14 @@
+/mnt/d/MySelf/Projects/Solana/hello_solana/target/sbpf-solana-solana/release/deps/serde-1c1fafc0a212b591.d: /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /mnt/d/MySelf/Projects/Solana/hello_solana/target/sbpf-solana-solana/release/build/serde-5060d767d602e83d/out/private.rs
+
+/mnt/d/MySelf/Projects/Solana/hello_solana/target/sbpf-solana-solana/release/deps/libserde-1c1fafc0a212b591.rlib: /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /mnt/d/MySelf/Projects/Solana/hello_solana/target/sbpf-solana-solana/release/build/serde-5060d767d602e83d/out/private.rs
+
+/mnt/d/MySelf/Projects/Solana/hello_solana/target/sbpf-solana-solana/release/deps/libserde-1c1fafc0a212b591.rmeta: /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /mnt/d/MySelf/Projects/Solana/hello_solana/target/sbpf-solana-solana/release/build/serde-5060d767d602e83d/out/private.rs
+
+/home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs:
+/home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs:
+/home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs:
+/home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs:
+/home/dunan/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs:
+/mnt/d/MySelf/Projects/Solana/hello_solana/target/sbpf-solana-solana/release/build/serde-5060d767d602e83d/out/private.rs:
+
+# env-dep:OUT_DIR=/mnt/d/MySelf/Projects/Solana/hello_solana/target/sbpf-solana-solana/release/build/serde-5060d767d602e83d/out
