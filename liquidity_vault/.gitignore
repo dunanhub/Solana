@@ -1,0 +1,12 @@
+.anchor/
+target/
+node_modules/
+test-ledger/
+.yarn/
+.env
+.env.*
+*-keypair.json
+wallet*.json
+*.log
+**/*.rs.bk
+.DS_Store

@@ -1,0 +1,26 @@
+[package]
+name = "liquidity_vault"
+version = "0.1.0"
+description = "Week 8 liquidity vault scaffold by Bekzat Ubniev"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "liquidity_vault"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+anchor-lang = "=0.31.1"
+# Anchor's mint-init macro also references token_interface at compile time.
+# Runtime accounts remain restricted to the classic SPL Token program.
+anchor-spl = { version = "=0.31.1", default-features = false, features = ["token", "token_2022", "token_2022_extensions"] }
