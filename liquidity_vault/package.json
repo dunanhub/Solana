@@ -2,11 +2,12 @@
   "name": "liquidity-vault",
   "version": "0.1.0",
   "private": true,
-  "description": "Week 8 Liquidity Vault — Бекзат Убниев",
+  "description": "Liquidity Vault: deposits and shares — Бекзат Убниев",
   "engines": { "node": ">=20.18.0" },
   "scripts": {
     "test:integration": "ts-mocha -p ./tsconfig.json -t 120000 tests/**/*.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "devnet:deposit": "ts-node scripts/devnet-deposit.ts"
   },
   "dependencies": {
     "@coral-xyz/anchor": "0.31.1",

@@ -1,7 +1,7 @@
 [package]
 name = "liquidity_vault"
 version = "0.1.0"
-description = "Week 8 liquidity vault scaffold by Bekzat Ubniev"
+description = "Liquidity vault with deposits and shares by Bekzat Ubniev"
 edition = "2021"
 
 [lib]
@@ -23,4 +23,4 @@ custom-panic = []
 anchor-lang = "=0.31.1"
 # Anchor's mint-init macro also references token_interface at compile time.
 # Runtime accounts remain restricted to the classic SPL Token program.
-anchor-spl = { version = "=0.31.1", default-features = false, features = ["token", "token_2022", "token_2022_extensions"] }
+anchor-spl = { version = "=0.31.1", default-features = false, features = ["associated_token", "token", "token_2022", "token_2022_extensions"] }
