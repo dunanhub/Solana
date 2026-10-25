@@ -25,3 +25,11 @@ startup_wait = 15000
 [test.validator]
 bind_address = "127.0.0.1"
 rpc_port = 8899
+
+[[test.genesis]]
+address = "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH"
+program = "target/fixtures/raydium-clmm.so"
+
+[[test.validator.account]]
+address = "CD4aJtX11cqTCAc83nxSPkkh5JW2yjD6uwHeovjqQ1qu"
+filename = "target/fixtures/raydium-config.json"

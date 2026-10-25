@@ -1,0 +1,432 @@
+{
+  "version": 1,
+  "cluster": "devnet",
+  "program": "7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH",
+  "wallet": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+  "pool": "CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b",
+  "binaryHash": "d2358cb7f896865b9ac106b665b777b8f060bb1b8c5aaa71fca0e4e7ae00da2b",
+  "baseline": {
+    "7jpsMqQMRwMJS9mmVHiXWAL5jCR1iJ8SfLya1YprMCEA": "2ed67502026350fcc3749d9542797b1f3160fbb0bd46676cf7b25ac82127ad7f",
+    "3rRZQFXJZcyFinsPcn4aYdJaC7FCoD2UMdmrrzPF5pom": "b4aa8a36a791da0d9682758b6ec8352ea574114ddf70f8c68a53ae1745d1961d",
+    "FK3fggzxrdzEow6tsUs8LUMR6YXgzBL4bRFopeJzBEtE": "4ec12a2d15895e47d4bb6f6b344651b083c6c2dd91a504dcdccad74a20ca65a9",
+    "6jtnv8sconTzJapKGFv4FMGfCs73pFnDay3xmNkVCqm5": "26776c8d1eff3d997c1f589654ac0a172512ccdd2d90920df738e6f3997f66f7",
+    "BKFDKZTEdkh2fhU6QyvkJoHRbvCK6MPFN8zvHhxNCp35": "752bb2d874e21fb9f3e53e626adfd5840b0e475b56c24ca34e2871bdaf13c26a",
+    "6737maPxu8QLVGpzPq2F2HyZy1pWWtF9bBRcWNMaXnji": "863a1472e197d6171be8d0bedde2b8cbf9a7d5c04ab95f28bd365cab17acf2f8",
+    "8Y3rCCZrTTSBaShqtNNPwJ8Xxw2EJcg46rCfG8LgDkj7": "0f714d841fbbe2eb80458e5d20c11c36356baeeb0614aad32b7cacc0bdc53f13",
+    "6ypFC13nnEyjTQPZwJQ52btusxyXgmxawsH6ApmD72Fc": "3bc41190da8adb1a4346e868846847bb9155a641d7d767bf3d318e156e887739",
+    "9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP": "29b935c5cf67f6f8a0ed839c9025fd160da9fc201cbf40365dd1af81b4c88aaa",
+    "FGWg89P3tk45pxLHCy8u1A564jPaVHCJjJnk923iKhyG": "29b935c5cf67f6f8a0ed839c9025fd160da9fc201cbf40365dd1af81b4c88aaa"
+  },
+  "receipts": {
+    "initializeVault": {
+      "signature": "4c9WqwTUGWQkgsJmZgpS3LXtrUembmv6buTsKZqdn3r64rBdwi26Wv2tvumRqju44pLoS4Hceb82ngDT5d3yitpH",
+      "blockhash": "9VgwUPwEfovwhjsVZ2XmLrLj1eqXCA1jyF4U7oPk8ZEb",
+      "lastValidBlockHeight": 502188602,
+      "status": "finalized",
+      "slot": 514987718
+    },
+    "openPosition": {
+      "signature": "5eUswZtQAHuwGTFEPNGZFd9eSqKy1P9NWQh7uk4wSubhk6kgMFDUdo3DnCHmsdsmRNoGKQBwoxsnuJC2XqyZ8RjJ",
+      "blockhash": "6oj6uGd9D3CWsJF1EYKWKbcStwsHbHcqDEHK4yvbqyKm",
+      "lastValidBlockHeight": 502188613,
+      "status": "finalized",
+      "slot": 514987731
+    },
+    "deposit": {
+      "signature": "tWT451Tkj8rr7sUc2QreqYBmtyAPhpferWFuqfLfP95wxDBeTHpjbQ2DxZcKgNRuD5Vuf25J2rC6P1wRiczS6HQ",
+      "blockhash": "AxuUp56i3LVQ1UyHCXEPTGXJDDiVmdeu7PpR5gVpLkjU",
+      "lastValidBlockHeight": 502188623,
+      "status": "finalized",
+      "slot": 514987741
+    },
+    "initializeStrategy": {
+      "signature": "3UphxvRHsLsSB5rZzHTFj2yziH1zEPfsdK3xqyC2dLnLgAxcbKJXaJdQkBNtMJcFLfTrst6eYz3Ko9hKCXCwhmFo",
+      "blockhash": "Cb31zcB2ttusGxdC1bX6VkGrTVmjnrpyp7DArx6k7ZrM",
+      "lastValidBlockHeight": 502188635,
+      "status": "finalized",
+      "slot": 514987753
+    },
+    "forward": {
+      "signature": "5c9V5SeWwxtX3BRQwwjNqp7Af3big645QgYTM2tQ29mkQFU2eQQJZUS1KYeYTPhD4Vp1hx4p9ot3wuVJZUbn7zhp",
+      "blockhash": "9fZvuoWp5tr4ngTsHCAz5cQWxUBWAs6WWURDpk68Eqt2",
+      "lastValidBlockHeight": 502188847,
+      "status": "finalized",
+      "slot": 514987966
+    },
+    "reverse": {
+      "signature": "5BxHhCCPonDuWtxoFJbtZumi3GwqayasXeqo5XnLRXMXbbEkXJSxjqGdBBVjg1GdnaWczWfZnM35Uib4AgQDWn8p",
+      "blockhash": "GffAvaDvYmPurEMWNi1mHDwwKfb3htEns8ZhiN4gCpe1",
+      "lastValidBlockHeight": 502188859,
+      "status": "finalized",
+      "slot": 514987980
+    },
+    "endStrategy": {
+      "signature": "5ytjNTEbQdotBWuK17EwmqUT9GRnLfiGLUTtQJDgxMejSTEAeqksYqqk7J3kPhaJWRxHAtmhNE5VXKmX8nHkHBy7",
+      "blockhash": "CNdr5c5p9qEMHpDn5pSuYZMtnawMTEXT551mRZBZrYbv",
+      "lastValidBlockHeight": 502188871,
+      "status": "finalized",
+      "slot": 514987992
+    },
+    "depositAfterEnd": {
+      "signature": "5G6NPfuD4JYc6NSxSEfZ4aLbYewVYd6DT5om4Tfp3BUcbpivessyUkuD12FGknvLJQMYPnMzu2qowDpC9h2xRrwN",
+      "blockhash": "8JLVp1Bqr33brPTMognwN6N6WMe976Vz819T5ETu1Ao8",
+      "lastValidBlockHeight": 502189584,
+      "status": "finalized",
+      "slot": 514988709
+    },
+    "withdrawAfterEnd": {
+      "signature": "2KDCRcxBuXhCEhnmvJfKGqvcm184WKfiDf2kQmgB3SyihpkhGxTuE1G97tWRKgmHCD2Yew7HYer26SMkHu8BdJY4",
+      "blockhash": "4RFdoKzv9QW3U9AtLGX9E36UKZ6LuUNAPdAg4xMc2KLz",
+      "lastValidBlockHeight": 502189642,
+      "status": "finalized",
+      "slot": 514988767
+    }
+  },
+  "snapshots": {
+    "before": {
+      "a": "0",
+      "b": "0",
+      "supply": "0",
+      "userA": "90000000",
+      "userB": "90000000",
+      "userShares": "0",
+      "history": "0",
+      "version": null,
+      "active": null,
+      "recordedB": null,
+      "swaps": null
+    },
+    "initializeVault": {
+      "a": "0",
+      "b": "0",
+      "supply": "0",
+      "userA": "90000000",
+      "userB": "90000000",
+      "userShares": "0",
+      "history": "0",
+      "version": 1,
+      "active": null,
+      "recordedB": null,
+      "swaps": null
+    },
+    "openPosition": {
+      "a": "0",
+      "b": "0",
+      "supply": "0",
+      "userA": "90000000",
+      "userB": "90000000",
+      "userShares": "0",
+      "history": "0",
+      "version": 1,
+      "active": null,
+      "recordedB": null,
+      "swaps": null
+    },
+    "deposit": {
+      "a": "1000000",
+      "b": "0",
+      "supply": "1000000",
+      "userA": "89000000",
+      "userB": "90000000",
+      "userShares": "1000000",
+      "history": "1000000",
+      "version": 1,
+      "active": null,
+      "recordedB": null,
+      "swaps": null
+    },
+    "initializeStrategy": {
+      "a": "1000000",
+      "b": "0",
+      "supply": "1000000",
+      "userA": "89000000",
+      "userB": "90000000",
+      "userShares": "1000000",
+      "history": "1000000",
+      "version": 129,
+      "active": true,
+      "recordedB": "0",
+      "swaps": "0"
+    },
+    "forward": {
+      "a": "990000",
+      "b": "9974",
+      "supply": "1000000",
+      "userA": "89000000",
+      "userB": "90000000",
+      "userShares": "1000000",
+      "history": "1000000",
+      "version": 129,
+      "active": true,
+      "recordedB": "9974",
+      "swaps": "1"
+    },
+    "reverse": {
+      "a": "999949",
+      "b": "0",
+      "supply": "1000000",
+      "userA": "89000000",
+      "userB": "90000000",
+      "userShares": "1000000",
+      "history": "1000000",
+      "version": 129,
+      "active": true,
+      "recordedB": "0",
+      "swaps": "2"
+    },
+    "endStrategy": {
+      "a": "999949",
+      "b": "0",
+      "supply": "1000000",
+      "userA": "89000000",
+      "userB": "90000000",
+      "userShares": "1000000",
+      "history": "1000000",
+      "version": 1,
+      "active": false,
+      "recordedB": "0",
+      "swaps": "2"
+    },
+    "depositAfterEnd": {
+      "a": "1000949",
+      "b": "0",
+      "supply": "1001000",
+      "userA": "88999000",
+      "userB": "90000000",
+      "userShares": "1001000",
+      "history": "1001000",
+      "version": 1,
+      "active": false,
+      "recordedB": "0",
+      "swaps": "2"
+    },
+    "withdrawAfterEnd": {
+      "a": "999950",
+      "b": "0",
+      "supply": "1000000",
+      "userA": "88999999",
+      "userB": "90000000",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 1,
+      "active": false,
+      "recordedB": "0",
+      "swaps": "2"
+    }
+  },
+  "swaps": {
+    "forward": {
+      "amount": "10000",
+      "minimum": "9874",
+      "limit": "18262276632972456099",
+      "simulatedOutput": "9974"
+    },
+    "reverse": {
+      "amount": "9974",
+      "minimum": "9849",
+      "limit": "18630662298761302247",
+      "simulatedOutput": "9949"
+    }
+  },
+  "guards": {
+    "deposit": {
+      "code": "StrategyActive",
+      "number": 6011,
+      "logs": [
+        "Program 7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH invoke [1]",
+        "Program log: Instruction: Deposit",
+        "Program log: AnchorError thrown in programs/liquidity_vault/src/strategy.rs:17. Error Code: StrategyActive. Error Number: 6011. Error Message: Vault deposits and withdrawals are locked by the active strategy.",
+        "Program 7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH consumed 20816 of 200000 compute units",
+        "Program 7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH failed: custom program error: 0x177b"
+      ]
+    },
+    "withdraw": {
+      "code": "StrategyActive",
+      "number": 6011,
+      "logs": [
+        "Program 7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH invoke [1]",
+        "Program log: Instruction: Withdraw",
+        "Program log: AnchorError thrown in programs/liquidity_vault/src/strategy.rs:17. Error Code: StrategyActive. Error Number: 6011. Error Message: Vault deposits and withdrawals are locked by the active strategy.",
+        "Program 7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH consumed 20852 of 200000 compute units",
+        "Program 7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH failed: custom program error: 0x177b"
+      ]
+    }
+  },
+  "retired": {
+    "depositAfterEnd": [
+      {
+        "signature": "5mEoqtdmMyyZQNqE2CbqiusdeUjaPXZJkmE33mH74DTshs7mrwyNsWuw1Q8q8bDPH722h7kqimXsjDDRJKrEqyAm",
+        "blockhash": "9trLQD1jEWx2QzXGPQxguFWLZS4PfbKxzSCLkBcfYLwr",
+        "lastValidBlockHeight": 502188883,
+        "status": "pending",
+        "broadcastError": "Error: 429 Too Many Requests:  {\"jsonrpc\":\"2.0\",\"error\":{\"code\": 429, \"message\":\"Connection rate limits exceeded\"}, \"id\": \"90a64696-73d3-4bed-9570-15e120e45ab2\" } \r\n",
+        "reason": "expired-unseen",
+        "finalizedHeight": 502189290
+      }
+    ]
+  },
+  "verifiedAt": "2026-10-25T13:43:13.054Z",
+  "deployment": {
+    "checkedAt": "2026-10-25T13:43:12.429Z",
+    "cluster": "devnet",
+    "wallet": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+    "balanceLamports": 5969359360,
+    "binaryBytes": 436992,
+    "binaryHash": "d2358cb7f896865b9ac106b665b777b8f060bb1b8c5aaa71fca0e4e7ae00da2b",
+    "binaryMatches": true,
+    "programData": "J5UyTo8E3xLcmttCxXYRNyTo48P3ZZDqzD28j7jTEopF",
+    "deployedSlot": "514987336",
+    "upgradePeakLamports": 2270757560,
+    "pool": "CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b",
+    "tick": -1,
+    "sqrtPriceX64": "18446742672331896339",
+    "balances": {
+      "walletA": "88999999",
+      "walletB": "90000000",
+      "poolA": "10000051",
+      "poolB": "10000000",
+      "newVaultA": "999950",
+      "newVaultB": "0",
+      "oldVaultAssets": "750000",
+      "oldVaultSupply": "750000"
+    },
+    "bekVaultExists": true,
+    "addresses": {
+      "assetMint": "9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP",
+      "vault": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+      "shareMint": "8TyFHFEmL4fnW4VL8i7wNoWi5nKeDTArwh2BicYPckZe",
+      "tokenVault": "jNvLD91PmrYYwPjSURsZL9fgUuHP6LXy46C6ASKV3tG",
+      "strategy": "CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU",
+      "quoteVault": "3ttDJsNhBzTBrSvhCtGYek8mQMe5DTqPi8D2GHgHT3Xo",
+      "position": "FYL45qhK11nvJLm7YMwreUnrk8dFkXhHq8bfiMwCE9hz"
+    }
+  },
+  "cpi": [
+    {
+      "signature": "5c9V5SeWwxtX3BRQwwjNqp7Af3big645QgYTM2tQ29mkQFU2eQQJZUS1KYeYTPhD4Vp1hx4p9ot3wuVJZUbn7zhp",
+      "explorer": "https://explorer.solana.com/tx/5c9V5SeWwxtX3BRQwwjNqp7Af3big645QgYTM2tQ29mkQFU2eQQJZUS1KYeYTPhD4Vp1hx4p9ot3wuVJZUbn7zhp?cluster=devnet",
+      "slot": 514987966,
+      "cpiAuthority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+      "stackHeight": 2,
+      "spent": "10000",
+      "received": "9974",
+      "tokenTransfers": [
+        {
+          "parsed": {
+            "info": {
+              "authority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+              "destination": "93QwHEoPSXfP6me7xPZFGxaEVtCXuwvphuhLTq9N1zjz",
+              "mint": "9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP",
+              "source": "jNvLD91PmrYYwPjSURsZL9fgUuHP6LXy46C6ASKV3tG",
+              "tokenAmount": {
+                "amount": "10000",
+                "decimals": 6,
+                "uiAmount": 0.01,
+                "uiAmountString": "0.01"
+              }
+            },
+            "type": "transferChecked"
+          },
+          "program": "spl-token",
+          "programId": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "stackHeight": 3
+        },
+        {
+          "parsed": {
+            "info": {
+              "authority": "CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b",
+              "destination": "3ttDJsNhBzTBrSvhCtGYek8mQMe5DTqPi8D2GHgHT3Xo",
+              "mint": "FGWg89P3tk45pxLHCy8u1A564jPaVHCJjJnk923iKhyG",
+              "source": "4aER6FgH241tiadd8RTzsjhoVsiDeAG8bsPiUL84q7hE",
+              "tokenAmount": {
+                "amount": "9974",
+                "decimals": 6,
+                "uiAmount": 0.009974,
+                "uiAmountString": "0.009974"
+              }
+            },
+            "type": "transferChecked"
+          },
+          "program": "spl-token",
+          "programId": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "stackHeight": 3
+        }
+      ]
+    },
+    {
+      "signature": "5BxHhCCPonDuWtxoFJbtZumi3GwqayasXeqo5XnLRXMXbbEkXJSxjqGdBBVjg1GdnaWczWfZnM35Uib4AgQDWn8p",
+      "explorer": "https://explorer.solana.com/tx/5BxHhCCPonDuWtxoFJbtZumi3GwqayasXeqo5XnLRXMXbbEkXJSxjqGdBBVjg1GdnaWczWfZnM35Uib4AgQDWn8p?cluster=devnet",
+      "slot": 514987980,
+      "cpiAuthority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+      "stackHeight": 2,
+      "spent": "9974",
+      "received": "9949",
+      "tokenTransfers": [
+        {
+          "parsed": {
+            "info": {
+              "authority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+              "destination": "4aER6FgH241tiadd8RTzsjhoVsiDeAG8bsPiUL84q7hE",
+              "mint": "FGWg89P3tk45pxLHCy8u1A564jPaVHCJjJnk923iKhyG",
+              "source": "3ttDJsNhBzTBrSvhCtGYek8mQMe5DTqPi8D2GHgHT3Xo",
+              "tokenAmount": {
+                "amount": "9974",
+                "decimals": 6,
+                "uiAmount": 0.009974,
+                "uiAmountString": "0.009974"
+              }
+            },
+            "type": "transferChecked"
+          },
+          "program": "spl-token",
+          "programId": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "stackHeight": 3
+        },
+        {
+          "parsed": {
+            "info": {
+              "authority": "CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b",
+              "destination": "jNvLD91PmrYYwPjSURsZL9fgUuHP6LXy46C6ASKV3tG",
+              "mint": "9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP",
+              "source": "93QwHEoPSXfP6me7xPZFGxaEVtCXuwvphuhLTq9N1zjz",
+              "tokenAmount": {
+                "amount": "9949",
+                "decimals": 6,
+                "uiAmount": 0.009949,
+                "uiAmountString": "0.009949"
+              }
+            },
+            "type": "transferChecked"
+          },
+          "program": "spl-token",
+          "programId": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "stackHeight": 3
+        }
+      ]
+    }
+  ],
+  "current": {
+    "a": "999950",
+    "b": "0",
+    "supply": "1000000",
+    "userA": "88999999",
+    "userB": "90000000",
+    "userShares": "1000000",
+    "history": "1001000",
+    "version": 1,
+    "active": false,
+    "recordedB": "0",
+    "swaps": "2"
+  },
+  "links": {
+    "initializeVault": "https://explorer.solana.com/tx/4c9WqwTUGWQkgsJmZgpS3LXtrUembmv6buTsKZqdn3r64rBdwi26Wv2tvumRqju44pLoS4Hceb82ngDT5d3yitpH?cluster=devnet",
+    "openPosition": "https://explorer.solana.com/tx/5eUswZtQAHuwGTFEPNGZFd9eSqKy1P9NWQh7uk4wSubhk6kgMFDUdo3DnCHmsdsmRNoGKQBwoxsnuJC2XqyZ8RjJ?cluster=devnet",
+    "deposit": "https://explorer.solana.com/tx/tWT451Tkj8rr7sUc2QreqYBmtyAPhpferWFuqfLfP95wxDBeTHpjbQ2DxZcKgNRuD5Vuf25J2rC6P1wRiczS6HQ?cluster=devnet",
+    "initializeStrategy": "https://explorer.solana.com/tx/3UphxvRHsLsSB5rZzHTFj2yziH1zEPfsdK3xqyC2dLnLgAxcbKJXaJdQkBNtMJcFLfTrst6eYz3Ko9hKCXCwhmFo?cluster=devnet",
+    "forward": "https://explorer.solana.com/tx/5c9V5SeWwxtX3BRQwwjNqp7Af3big645QgYTM2tQ29mkQFU2eQQJZUS1KYeYTPhD4Vp1hx4p9ot3wuVJZUbn7zhp?cluster=devnet",
+    "reverse": "https://explorer.solana.com/tx/5BxHhCCPonDuWtxoFJbtZumi3GwqayasXeqo5XnLRXMXbbEkXJSxjqGdBBVjg1GdnaWczWfZnM35Uib4AgQDWn8p?cluster=devnet",
+    "endStrategy": "https://explorer.solana.com/tx/5ytjNTEbQdotBWuK17EwmqUT9GRnLfiGLUTtQJDgxMejSTEAeqksYqqk7J3kPhaJWRxHAtmhNE5VXKmX8nHkHBy7?cluster=devnet",
+    "depositAfterEnd": "https://explorer.solana.com/tx/5G6NPfuD4JYc6NSxSEfZ4aLbYewVYd6DT5om4Tfp3BUcbpivessyUkuD12FGknvLJQMYPnMzu2qowDpC9h2xRrwN?cluster=devnet",
+    "withdrawAfterEnd": "https://explorer.solana.com/tx/2KDCRcxBuXhCEhnmvJfKGqvcm184WKfiDf2kQmgB3SyihpkhGxTuE1G97tWRKgmHCD2Yew7HYer26SMkHu8BdJY4?cluster=devnet"
+  }
+}

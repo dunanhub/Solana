@@ -1,0 +1,17 @@
+{
+  "cluster": "devnet",
+  "program": "7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH",
+  "programData": "J5UyTo8E3xLcmttCxXYRNyTo48P3ZZDqzD28j7jTEopF",
+  "authority": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+  "signature": "4jkjDPzewK8tgPL1gxPQtaK5wiMbSM7NHkES22NfKs8yCZuM2nzHJALcwA93Va1Bmc5EqmmkHqCcS9wBaPYSxVM3",
+  "slot": 514987336,
+  "finalized": true,
+  "binaryMatches": true,
+  "binaryBytes": 436992,
+  "allocatedBytes": 436992,
+  "sha256": "d2358cb7f896865b9ac106b665b777b8f060bb1b8c5aaa71fca0e4e7ae00da2b",
+  "buffer": "AjAYGJk7P9HqSnVhNX29NDm6gyrxgVZB1NgieZfkacmj",
+  "bufferClosed": true,
+  "explorer": "https://explorer.solana.com/tx/4jkjDPzewK8tgPL1gxPQtaK5wiMbSM7NHkES22NfKs8yCZuM2nzHJALcwA93Va1Bmc5EqmmkHqCcS9wBaPYSxVM3?cluster=devnet",
+  "verifiedAt": "2026-10-25T13:37:35.516Z"
+}

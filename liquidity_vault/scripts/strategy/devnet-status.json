@@ -1,0 +1,36 @@
+{
+  "checkedAt": "2026-10-25T13:43:35.668Z",
+  "cluster": "devnet",
+  "wallet": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+  "balanceLamports": 5969359360,
+  "binaryBytes": 436992,
+  "binaryHash": "d2358cb7f896865b9ac106b665b777b8f060bb1b8c5aaa71fca0e4e7ae00da2b",
+  "binaryMatches": true,
+  "programData": "J5UyTo8E3xLcmttCxXYRNyTo48P3ZZDqzD28j7jTEopF",
+  "deployedSlot": "514987336",
+  "upgradePeakLamports": 2270757560,
+  "pool": "CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b",
+  "tick": -1,
+  "sqrtPriceX64": "18446742672331896339",
+  "balances": {
+    "walletA": "88999999",
+    "walletB": "90000000",
+    "poolA": "10000051",
+    "poolB": "10000000",
+    "newVaultA": "999950",
+    "newVaultB": "0",
+    "oldVaultAssets": "750000",
+    "oldVaultSupply": "750000"
+  },
+  "bekVaultExists": true,
+  "addresses": {
+    "assetMint": "9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP",
+    "vault": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+    "shareMint": "8TyFHFEmL4fnW4VL8i7wNoWi5nKeDTArwh2BicYPckZe",
+    "tokenVault": "jNvLD91PmrYYwPjSURsZL9fgUuHP6LXy46C6ASKV3tG",
+    "strategy": "CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU",
+    "quoteVault": "3ttDJsNhBzTBrSvhCtGYek8mQMe5DTqPi8D2GHgHT3Xo",
+    "position": "FYL45qhK11nvJLm7YMwreUnrk8dFkXhHq8bfiMwCE9hz"
+  },
+  "note": "Read-only check, not proof of Week 12 transactions"
+}

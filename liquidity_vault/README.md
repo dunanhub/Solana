@@ -1,4 +1,4 @@
-# Liquidity Vault — Week 11: Raydium CLMM Integration
+# Liquidity Vault — Week 12: Vault Strategy & Raydium CPI
 
 **Владелец проекта: Бекзат Убниев.**
 
@@ -7,6 +7,9 @@
 активов и выпуск долей; Week 10 — вывод активов со сжиганием реальных shares.
 Week 11 добавляет отдельный Devnet-сценарий Raydium CLMM: свои токены, пул и
 позицию, принадлежащую кошельку. Anchor-программа Vault в Week 11 не изменяется.
+Week 12 добавляет admin-only стратегию с настоящим CPI SwapV2 и обратным обменом.
+**Статус Week 12: DONE** — локальные тесты пройдены; Devnet upgrade, оба настоящих
+CPI swap, безопасный end и последующие deposit/withdraw подтверждены finalized.
 
 ## Стек и сеть
 
@@ -41,10 +44,12 @@ liquidity_vault/
 ├── tsconfig.json
 ├── programs/liquidity_vault/
 │   ├── Cargo.toml
-│   └── src/{lib.rs,math.rs}
+│   └── src/{lib.rs,math.rs,strategy.rs,raydium.rs}
 ├── scripts/{prepare-local.sh,devnet-deposit.ts,devnet-withdraw.ts}
 ├── scripts/raydium/{config.ts,runtime.ts,checks.ts,cli.ts,policy.test.ts,devnet-proof.json}
-├── tests/{liquidity_vault.ts,deposit.ts,withdraw.ts}
+├── scripts/strategy/{client.ts,journal.ts,devnet.ts,verify-upgrade.ts,prepare-fixtures.ts,policy.test.ts}
+├── scripts/strategy/{devnet-status.json,upgrade-proof.json,devnet-proof.json}
+├── tests/{liquidity_vault.ts,deposit.ts,withdraw.ts,strategy.ts}
 └── README.md
 ```
 
@@ -61,9 +66,12 @@ liquidity_vault/
 | `ShareMint` | `[b"share-mint", vault]` | SPL Token; mint долей |
 | `Token Vault` | `[b"token-vault", vault]` | SPL Token; хранилище базового актива |
 | `UserPosition` | `[b"position", vault, user]` | Liquidity Vault; позиция пользователя в конкретном Vault |
+| `Strategy` | `[b"strategy", vault]` | Liquidity Vault; неизменяемые привязки пула и состояние стратегии |
 
 `VaultConfig` содержит `administrator`, `asset_mint`, `share_mint`, `token_vault`,
-три bump и `version = 1`. Размер с дискриминатором Anchor: **140 байт**.
+три bump и `version`. Размер с дискриминатором Anchor: **140 байт**.
+Без активной стратегии `version = 1`; в Week 12 старший бит служит блокировкой,
+поэтому во время стратегии значение равно `0x81` (129). Подробности ниже.
 
 `UserPosition` содержит `vault`, `user`, `shares = 0` и bump.
 Размер с дискриминатором: **81 байт**. В Week 9 `shares` увеличивается на число
@@ -270,6 +278,258 @@ Rust-тестами без изменения validator-аккаунтов ил�
 граница `u64::MAX` и промежуточное произведение в `u128` проверены также на validator.
 Freeze authority базового mint может остановить переводы; Token-2022, комиссии,
 стратегии, virtual shares и защита первого вкладчика от donation здесь не добавлены.
+
+## Week 12 — Vault Strategy & Raydium CPI
+
+### Архитектура и совместимость
+
+`Strategy` — отдельный PDA `[b"strategy", vault]`, **314 байт** с дискриминатором.
+Он хранит Vault, администратора, единственный разрешённый pool/config, quote mint,
+quote ATA, оба Raydium token vaults, observation, фактический quote-баланс после
+последней операции, счётчик swap, `active` и bump. Привязки нельзя заменить после
+инициализации. Разрешён канонический CLMM-пул, созданный администратором Vault,
+с парой asset/quote; глобальный произвольный CPI target отсутствует.
+
+`VaultConfig` (140 байт), `UserPosition` (81 байт), дискриминаторы, старые seeds,
+Program ID, порядок аккаунтов deposit/withdraw и старые коды ошибок сохранены.
+Структурной миграции нет. Единственное расширение семантики старого поля:
+`version & 0x7f` — версия схемы 1, `version & 0x80` — активная стратегия.
+Клиентам, сравнивающим весь byte с 1, нужно учитывать этот флаг. Сам on-chain
+deposit/withdraw допускает только значение 1; при 129 возвращает `StrategyActive`
+до расчётов и token CPI. Пользователь не может обойти блокировку, опустив Strategy
+из списка аккаунтов: guard находится в обязательном VaultConfig.
+
+Исторический `UserPosition.shares` остаётся суммой выпущенных долей. Swap и
+withdraw его не уменьшают; права на вывод определяются реальным балансом shares.
+Старые Vault без Strategy продолжают использовать исходные формулы.
+
+Жизненный цикл:
+
+1. `initialize_strategy()` — подпись сохранённого администратора, проверка пары,
+   пула и положительных активов/supply/liquidity; создание Strategy и quote ATA,
+   установка `active=true` и блокировки Vault.
+2. `swap(a_to_b, amount, min_amount_out, sqrt_price_limit_x64)` — только тот же admin;
+   обмен A→B или B→A между двумя token accounts того же Vault.
+3. `end_strategy()` — только admin, реальный B **и** записанный B равны нулю;
+   при ненулевом share supply должен остаться A. Снимает обе блокировки атомарно.
+4. `start_strategy()` — повторное включение существующей стратегии после end;
+   pool/mints/accounts не меняются. Повторная инициализация запрещена.
+
+Базовый Token Vault остаётся PDA token account. Второй счёт — канонический ATA
+Token B с authority = Vault PDA, classic SPL Token owner. `init_if_needed` относится
+только к этому ATA: заранее созданный правильный ATA принимается, его реальный
+баланс сразу учитывается. Strategy всегда создаётся через `init`.
+
+### Настоящий SwapV2 CPI
+
+Интеграция сверена с [официальным SwapV2](https://github.com/raydium-io/raydium-clmm/blob/master/programs/amm/src/instructions/swap_v2.rs),
+[IDL Raydium](https://github.com/raydium-io/raydium-idl/blob/master/raydium_clmm/raydium_clmm.json)
+и установленным SDK `0.2.74-alpha`. Используется минимальный проверяемый ABI,
+без подключения другого Anchor из CPI crate; Anchor проекта остался **0.31.1**.
+
+Данные CPI: дискриминатор SwapV2 `[43,4,237,11,26,201,30,98]`, `amount:u64`,
+`other_amount_threshold:u64`, `sqrt_price_limit_x64:u128` little-endian,
+`is_base_input=true`. Порядок аккаунтов: Vault signer, config, pool, input/output
+Vault token accounts, input/output pool vaults, observation, Token, Token-2022,
+Memo, input/output mints; remaining accounts — bitmap и 1–3 tick arrays.
+Signer seeds: `[b"vault", asset_mint, vault.bump]`; admin подписывает внешнюю
+Vault-инструкцию, Vault PDA подписывает внутренний Raydium-вызов через
+`invoke_signed`. Получатель не задаётся пользователем.
+
+On-chain закреплён executable Devnet CLMM
+`DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH`. Проверяются ownership,
+дискриминаторы/размеры аккаунтов, canonical pool/vault/observation/bitmap PDAs,
+связи Strategy/Vault/pool/mints, SPL authorities и фиксированные program IDs.
+Tick arrays должны принадлежать этому пулу, иметь canonical PDA и правильный
+start index; первая соответствует текущему tick, остальные упорядочены по
+направлению. Read-only, повторные и чужие массивы отклоняются.
+
+`amount` и минимум строго положительны. Price limit обязателен, внутри пределов
+Raydium и с правильной стороны от текущей цены. Devnet-клиент берёт quote из
+предварительной симуляции именно Vault CPI, устанавливает минимум 99% quote и
+sqrt price limit ±1%. Доказательством выполнения служит отдельная finalized
+транзакция, а не эта симуляция. После CPI оба token accounts перечитываются:
+потрачено ровно `amount`, получено не меньше минимума и больше нуля. Частичный fill
+по price limit приводит к `PartialSwap` и откату всей транзакции. Счётчик и дельты
+используют checked arithmetic. `StrategySwapEvent` фиксирует реальные результаты.
+
+### Завершение, donations и границы стратегии
+
+Это spot-стратегия: в коде нет открытия LP-позиций, займа, открытых ордеров или
+других обязательств. `recorded_quote_balance` — последний наблюдённый остаток B,
+а не рыночная оценка и не фиктивный счётчик долга. End проверяет его вместе с
+реальным ATA. Отдельный Rust-тест покрывает запрет end при recorded B > 0 и
+actual B = 0; такое состояние нельзя создать доступными инструкциями стратегии.
+
+Прямой перевод B до end блокирует разблокировку. Администратор обменивает весь
+остаток B обратно через тот же CPI; sweep, burn или вывода B на свой кошелёк нет.
+Пыль, не дающая положительный output, может потребовать небольшого внешнего
+пополнения B перед обратным swap. Это ограничение доступности: посторонний может
+повторно посылать donations. После безопасного end новый перевод B считается
+подаренным активом вне базовой оценки shares; admin может снова запустить
+стратегию и конвертировать его. A-donations входят в фактический баланс базового
+Vault и старые формулы. Для повторного запуска нужен положительный share supply.
+
+Пока стратегия активна, deposit/withdraw заблокированы даже при B = 0, до end.
+Admin выбирает момент сделок и способен причинить торговый убыток; полного NAV,
+автоматического ребалансирования, price oracle для оценки shares и механизма
+выхода без admin в Week 12 нет. Поддерживаются только classic SPL Token assets,
+активная ликвидность в текущем диапазоне и до трёх tick arrays. Трансферные hooks,
+Token-2022 assets и перенос позиции не реализованы.
+
+**NFT-позиция Week 11 принадлежит кошельку `bnCwy…21pjDe`, а не Vault PDA.**
+Ни она, ни её NFT не передаются стратегии. Исторический Week 11 checker проверяет
+начальную цену 1:1; после будущих swap цена может измениться. Для Week 12
+используется собственная проверка, допускающая реальную цену после round trip.
+
+### Локальные проверки Week 12
+
+Локальный validator исполняет настоящий Devnet CLMM ELF: ProgramData slot
+`513147960`, 2 528 752 байта, SHA-256
+`60255f5ce990ef6ac6847e2316400d2dc2cb83968cb885bf44d6dfac2531ad43`.
+`yarn strategy:fixtures` загружает executable и публичный AmmConfig, проверяет
+сеть/owner/формат и сохраняет manifest в игнорируемом `target/fixtures/`.
+Тесты создают собственные локальные mint/pool/LP, используют одноразовые ключи
+и оба порядка asset mint в Raydium-паре. Mock Raydium-программы нет.
+
+Проверены: создание/повторный запуск/завершение, оба swap, реальные балансы и
+неизменность shares, запрет старых deposit/withdraw, возобновление после end,
+admin/signature/PDA/mint/token-program/pool-vault/bitmap/tick подмены, недостаток
+средств, zero amount/minimum, price/slippage, frozen transfer, partial fill,
+donations, заранее созданный ATA. Ошибки сравниваются с конкретными кодами и
+снимками всех затронутых аккаунтов. Отдельная **ошибочная локальная ledger-
+транзакция** проходит Raydium CPI, затем откатывается по `PartialSwap`: это
+проверяет атомарность исполнения, а не только симуляции. Только этот негативный
+localnet-тест использует `skipPreflight`; Devnet всегда сохраняет preflight.
+
+| Проверка | Результат |
+| --- | --- |
+| `anchor build` | PASS; SBF 436 992 байта, IDL/типы созданы |
+| `cargo test` | **25 passed**: 20 прежних + 5 стратегии |
+| `anchor test --skip-build` | **146 passing (2m)**: 99 прежних + 47 стратегии; Yarn 166,64 s |
+| `yarn test:raydium` | **19 passing**, Week 11 без изменений |
+| `yarn test:strategy-policy` | **10 passing**: журнал, потерянный ответ, ошибка записи, failed/pending signatures, проверяемое истечение blockhash |
+| `yarn typecheck` | PASS |
+| `cargo fmt --check`, `git diff --check` | PASS; новые файлы также проверены отдельно |
+| Devnet verification | PASS: binary match, 9 finalized операций Vault, оба CPI и безопасное конечное состояние |
+
+### Devnet Week 12: фактический статус
+
+Старый Vault Week 9/10 использует другой mint `97EfbG…fe5S`, поэтому новый
+сценарий создал отдельные PDA для BEK Token A под **тем же Program ID**.
+Старый Vault сохранился без изменений:
+
+| Аккаунт | Созданный Devnet-адрес |
+| --- | --- |
+| BEK A Vault | `7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG` |
+| A token vault | `jNvLD91PmrYYwPjSURsZL9fgUuHP6LXy46C6ASKV3tG` |
+| Share mint | `8TyFHFEmL4fnW4VL8i7wNoWi5nKeDTArwh2BicYPckZe` |
+| Strategy PDA | `CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU` |
+| Quote B ATA | `3ttDJsNhBzTBrSvhCtGYek8mQMe5DTqPi8D2GHgHT3Xo` |
+
+Публичные доказательства: [upgrade-proof.json](scripts/strategy/upgrade-proof.json),
+[devnet-proof.json](scripts/strategy/devnet-proof.json) и read-only
+[devnet-status.json](scripts/strategy/devnet-status.json). Сохранены все полные
+signatures, slots, Explorer links, снимки каждого этапа, параметры swap,
+вложенные SPL-переводы и результаты проверок блокировки.
+
+Upgrade finalized в slot **514987336**. ProgramData содержит ровно **436992 байта**
+бинарника, полностью совпадающего с локальной сборкой; SHA-256
+`d2358cb7f896865b9ac106b665b777b8f060bb1b8c5aaa71fca0e4e7ae00da2b`.
+Upgrade authority сохранён, именованный buffer закрыт. Проверены Devnet genesis,
+собственный пул, mint supply/decimals/authorities, ликвидность **338374998**,
+неизменность старого Vault и сохранение LP/NFT у кошелька.
+
+| Операция | Slot | Signature / Explorer (Devnet) |
+| --- | ---: | --- |
+| Upgrade | 514987336 | [4jkjDPze…PYSxVM3](https://explorer.solana.com/tx/4jkjDPzewK8tgPL1gxPQtaK5wiMbSM7NHkES22NfKs8yCZuM2nzHJALcwA93Va1Bmc5EqmmkHqCcS9wBaPYSxVM3?cluster=devnet) |
+| Initialize Vault | 514987718 | [4c9WqwTU…d3yitpH](https://explorer.solana.com/tx/4c9WqwTUGWQkgsJmZgpS3LXtrUembmv6buTsKZqdn3r64rBdwi26Wv2tvumRqju44pLoS4Hceb82ngDT5d3yitpH?cluster=devnet) |
+| Open user position + share ATA | 514987731 | [5eUswZtQ…qyZ8RjJ](https://explorer.solana.com/tx/5eUswZtQAHuwGTFEPNGZFd9eSqKy1P9NWQh7uk4wSubhk6kgMFDUdo3DnCHmsdsmRNoGKQBwoxsnuJC2XqyZ8RjJ?cluster=devnet) |
+| Deposit 1 A | 514987741 | [tWT451Tk…iczS6HQ](https://explorer.solana.com/tx/tWT451Tkj8rr7sUc2QreqYBmtyAPhpferWFuqfLfP95wxDBeTHpjbQ2DxZcKgNRuD5Vuf25J2rC6P1wRiczS6HQ?cluster=devnet) |
+| Initialize Strategy | 514987753 | [3UphxvRH…XCwhmFo](https://explorer.solana.com/tx/3UphxvRHsLsSB5rZzHTFj2yziH1zEPfsdK3xqyC2dLnLgAxcbKJXaJdQkBNtMJcFLfTrst6eYz3Ko9hKCXCwhmFo?cluster=devnet) |
+| A → B | 514987966 | [5c9V5SeW…Ubn7zhp](https://explorer.solana.com/tx/5c9V5SeWwxtX3BRQwwjNqp7Af3big645QgYTM2tQ29mkQFU2eQQJZUS1KYeYTPhD4Vp1hx4p9ot3wuVJZUbn7zhp?cluster=devnet) |
+| B → A | 514987980 | [5BxHhCCP…gQDWn8p](https://explorer.solana.com/tx/5BxHhCCPonDuWtxoFJbtZumi3GwqayasXeqo5XnLRXMXbbEkXJSxjqGdBBVjg1GdnaWczWfZnM35Uib4AgQDWn8p?cluster=devnet) |
+| End Strategy | 514987992 | [5ytjNTEb…nHkHBy7](https://explorer.solana.com/tx/5ytjNTEbQdotBWuK17EwmqUT9GRnLfiGLUTtQJDgxMejSTEAeqksYqqk7J3kPhaJWRxHAtmhNE5VXKmX8nHkHBy7?cluster=devnet) |
+| Deposit после end | 514988709 | [5G6NPfuD…h2xRrwN](https://explorer.solana.com/tx/5G6NPfuD4JYc6NSxSEfZ4aLbYewVYd6DT5om4Tfp3BUcbpivessyUkuD12FGknvLJQMYPnMzu2qowDpC9h2xRrwN?cluster=devnet) |
+| Withdraw после end | 514988767 | [2KDCRcxB…u8BdJY4](https://explorer.solana.com/tx/2KDCRcxBuXhCEhnmvJfKGqvcm184WKfiDf2kQmgB3SyihpkhGxTuE1G97tWRKgmHCD2Yew7HYer26SMkHu8BdJY4?cluster=devnet) |
+
+Фактические изменения Vault, все числа ниже в base units (6 decimals):
+
+| Этап | Vault A | Vault B | Share supply | Исторические shares пользователя |
+| --- | ---: | ---: | ---: | ---: |
+| Перед стратегией, после депозита | 1000000 | 0 | 1000000 | 1000000 |
+| После A → B | 990000 | 9974 | 1000000 | 1000000 |
+| После B → A и end | 999949 | 0 | 1000000 | 1000000 |
+| После контрольного deposit | 1000949 | 0 | 1001000 | 1001000 |
+| После контрольного withdraw | **999950** | **0** | **1000000** | **1001000** |
+
+Прямой swap потратил **10000 A**, получил **9974 B**, минимум **9874 B**;
+обратный потратил весь B (**9974**), получил **9949 A**, минимум **9849 A**.
+Round trip уменьшил активы на **51 base unit A = 0,000051 A** с учётом fee и
+округления. Контрольный deposit внёс 1000 A units и выпустил 1000 shares;
+withdraw сжёг 1000 shares и вернул 999 A units по фактическому курсу.
+Конечное состояние: `active=false`, `version=1`, `recorded_quote_balance=0`,
+`swap_count=2`. В обоих swap подтверждены Raydium `stackHeight=2`, по два
+`transferChecked` с `stackHeight=3`, реальные amounts/mints/source/destination,
+Vault PDA как input authority и pool PDA как output authority. Vault не является
+внешним transaction signer; подпись возникает только через `invoke_signed`.
+
+Кошелёк A/B: **90 / 90 → 88,999999 / 90**; pool A/B:
+**10 / 10 → 10,000051 / 10**. Старый Vault assets/supply остались
+**750000 / 750000**. После обменов tick **−1**, sqrtPriceX64
+**18446742672331896339**; ликвидность и ручная NFT-позиция не изменились.
+
+Изначально 1,52314352 SOL не хватало на upgrade; один запрос faucet был отклонён.
+Владелец пополнил кошелёк на **5 тестовых SOL**, до **6,52314352 SOL**.
+После upgrade, rent новых аккаунтов и всех операций осталось **5,96935936 SOL**.
+Первая попытка контрольного deposit после end получила RPC **429** и не попала
+в цепочку. Проверены отсутствие транзакции и истечение blockhash на finalized
+height **502189290** (lastValid **502188883**); старая подпись сохранена в `retired`
+публичного proof. Только после этого выполнена новая успешная транзакция.
+Ни swap, ни end повторно не отправлялись; preflight всегда оставался включённым.
+
+Публичные адреса: [Vault program](https://explorer.solana.com/address/7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH?cluster=devnet),
+[Raydium pool](https://explorer.solana.com/address/CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b?cluster=devnet).
+
+Повторная проверка завершённого сценария:
+
+```bash
+yarn strategy check --save-status          # read-only, без ключа
+yarn strategy:verify-upgrade 4jkjDPzewK8tgPL1gxPQtaK5wiMbSM7NHkES22NfKs8yCZuM2nzHJALcwA93Va1Bmc5EqmmkHqCcS9wBaPYSxVM3
+export ANCHOR_WALLET="$HOME/.config/solana/jezqwx/id.json"
+yarn strategy verify                      # без отправки транзакций
+# yarn strategy run — продолжение по внешнему журналу; завершённые этапы пропускаются.
+```
+
+`run` вносит 1 BEK A, активирует стратегию, проверяет блокировку старых методов,
+обменивает 0,01 A на B, затем весь полученный B обратно, выполняет end,
+вносит ещё 0,001 A и погашает 1000 base units shares. Результат не предполагает
+возврата исходного количества A: учитываются fee, округление и price impact.
+Проверка требует вложенный Raydium `stackHeight=2`, два SPL transfer `=3`,
+правильные accounts/data/event, неизменные старые Vault/mints/LP/NFT.
+
+Журнал `~/.config/solana/liquidity_vault/week12-strategy/state.json` хранится
+вне Git, подпись записывается **до единственной отправки**. `maxRetries=0`,
+preflight включён; после потерянного RPC-ответа проверяется сохранённая подпись.
+Неразрешённая или failed подпись останавливает процесс: нельзя удалять журнал
+или автоматически создавать повторную сделку. Для отклонённого контрольного
+депозита есть отдельная read-only команда `yarn strategy recover-expired-deposit`:
+она требует finalized block height выше lastValidBlockHeight, отсутствия подписи
+и транзакции в истории, невалидного blockhash и неизменных балансов после end.
+Только после этих проверок старая receipt архивируется в `retired`, а следующий
+явный `run` может подготовить новую транзакцию. Swap эта команда не повторяет.
+Между отправляющими этапами выдерживается 10 секунд. Read RPC имеет ограниченные
+повторы. Одновременные запуски защищены внешним `run.lock`; после аварии lock
+удаляют только проверив отсутствие живого процесса и результаты подписей.
+
+Исправлены ошибки null-narrowing и типов RPC `stackHeight` в TypeScript,
+а также чтение Anchor `SimulateError`: код `StrategyActive` разбирается из
+`simulationResponse.logs`, а не из пустого текста исключения. Обе Devnet
+симуляции запрета deposit/withdraw вернули именно код 6011; логи сохранены в proof.
+SBF-сборка выполнена с boxed Anchor accounts без переполнения стека.
+Существующие предупреждения макросов Anchor не препятствуют сборке.
+Секреты не добавляются: fixture ELF/IDL/ledger/keypair symlink игнорируются,
+Devnet wallet и program/buffer keypairs остаются во внешнем WSL config.
 
 ## Week 11 — Raydium CLMM Integration
 
@@ -480,7 +740,10 @@ cargo fmt --check
 anchor build
 cargo test
 yarn typecheck
+yarn strategy:fixtures
 anchor test
+yarn test:raydium
+yarn test:strategy-policy
 git diff --check
 git status --short
 ```
@@ -808,12 +1071,11 @@ donation и округление, slippage, ATA/mint/PDA/подписи, нед�
 peer dependency `fastestsmallesttextencoderdecoder` в транзитивных SPL codecs.
 Ошибок компиляции или тестов в итоговом прогоне нет.
 
-## Дальнейшие недели — только план
+## Week 13 — предварительный план
 
-- **Week 12:** по следующему заданию — интеграция стратегии с Vault, модель
-  владения Position NFT, учёт вложенных активов, безопасные CPI increase/decrease
-  liquidity и соответствующие проверки. Текущая позиция остаётся у кошелька.
-- **Week 13:** итоговые сценарии, документация и демонстрация.
-
-Пункты Week 12–13 — предварительный план: подробная методичка этих недель
-не предоставлена. Их реализация не входит в текущую работу.
+Devnet-доказательство Week 12 завершено. Далее: модель полного NAV при нескольких
+активах, владение Position NFT через Vault,
+проверяемые CPI открытия/увеличения/уменьшения LP-позиции, отдельный учёт
+обязательств и критериев безопасного выхода, тесты округления/убытка/dust,
+пользовательский интерфейс состояния блокировки и итоговая демонстрация.
+Это план, не реализованные возможности; NFT Week 11 остаётся у кошелька.

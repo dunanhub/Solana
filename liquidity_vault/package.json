@@ -12,7 +12,11 @@
     "devnet:deposit": "ts-node scripts/devnet-deposit.ts",
     "devnet:withdraw": "ts-node scripts/devnet-withdraw.ts",
     "raydium": "ts-node scripts/raydium/cli.ts",
-    "test:raydium": "ts-mocha -p ./tsconfig.json scripts/raydium/policy.test.ts"
+    "test:raydium": "ts-mocha -p ./tsconfig.json scripts/raydium/policy.test.ts",
+    "strategy:fixtures": "ts-node scripts/strategy/prepare-fixtures.ts",
+    "strategy": "ts-node scripts/strategy/devnet.ts",
+    "strategy:verify-upgrade": "ts-node scripts/strategy/verify-upgrade.ts",
+    "test:strategy-policy": "ts-mocha -p ./tsconfig.json scripts/strategy/policy.test.ts"
   },
   "dependencies": {
     "@coral-xyz/anchor": "0.31.1",

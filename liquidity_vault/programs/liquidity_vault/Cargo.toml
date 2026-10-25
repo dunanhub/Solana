@@ -20,7 +20,7 @@ custom-heap = []
 custom-panic = []
 
 [dependencies]
-anchor-lang = "=0.31.1"
+anchor-lang = { version = "=0.31.1", features = ["init-if-needed"] }
 # Anchor's mint-init macro also references token_interface at compile time.
 # Runtime accounts remain restricted to the classic SPL Token program.
 anchor-spl = { version = "=0.31.1", default-features = false, features = ["associated_token", "token", "token_2022", "token_2022_extensions"] }

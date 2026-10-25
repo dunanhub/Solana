@@ -2,6 +2,9 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Burn, Mint, MintTo, Token, TokenAccount, TransferChecked};
 
 mod math;
+mod raydium;
+mod strategy;
+pub use strategy::*;
 
 declare_id!("7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH");
 
@@ -34,6 +37,7 @@ pub mod liquidity_vault {
     }
 
     pub fn deposit(ctx: Context<Deposit>, amount: u64, min_shares_out: u64) -> Result<()> {
+        strategy::require_unlocked(ctx.accounts.vault.version)?;
         // Snapshot the pre-deposit balance and supply, before either CPI.
         let quote = math::quote_deposit(
             amount,
@@ -86,6 +90,7 @@ pub mod liquidity_vault {
         shares_to_burn: u64,
         min_assets_out: u64,
     ) -> Result<()> {
+        strategy::require_unlocked(ctx.accounts.vault.version)?;
         // Quote from the pre-burn supply and pre-transfer asset balance.
         // Historical position.shares is deliberately not an entitlement or a debit counter.
         let assets_out = math::quote_withdraw(
@@ -127,6 +132,28 @@ pub mod liquidity_vault {
             ctx.accounts.asset_mint.decimals,
         )?;
         Ok(())
+    }
+
+    pub fn initialize_strategy(ctx: Context<InitializeStrategy>) -> Result<()> {
+        strategy::initialize(ctx)
+    }
+
+    pub fn start_strategy(ctx: Context<ManageStrategy>) -> Result<()> {
+        strategy::start(ctx)
+    }
+
+    pub fn swap<'info>(
+        ctx: Context<'_, '_, '_, 'info, StrategySwap<'info>>,
+        a_to_b: bool,
+        amount: u64,
+        min_amount_out: u64,
+        sqrt_price_limit_x64: u128,
+    ) -> Result<()> {
+        strategy::execute_swap(ctx, a_to_b, amount, min_amount_out, sqrt_price_limit_x64)
+    }
+
+    pub fn end_strategy(ctx: Context<ManageStrategy>) -> Result<()> {
+        strategy::end(ctx)
     }
 }
 
@@ -332,6 +359,7 @@ pub struct VaultConfig {
     pub bump: u8,
     pub share_mint_bump: u8,
     pub token_vault_bump: u8,
+    /// Low seven bits: schema version 1. High bit: strategy lock (0x81 while active).
     pub version: u8,
 }
 
@@ -369,4 +397,24 @@ pub enum VaultError {
     ZeroAssetsOut,
     #[msg("Calculated assets are below min_assets_out")]
     WithdrawSlippageExceeded,
+    #[msg("Vault deposits and withdrawals are locked by the active strategy")]
+    StrategyActive,
+    #[msg("Unsupported Vault version or inconsistent strategy lock")]
+    InvalidStrategyState,
+    #[msg("Strategy is not active")]
+    StrategyInactive,
+    #[msg("Invalid Raydium account, mint, pool or binding")]
+    InvalidRaydiumAccount,
+    #[msg("Invalid tick array, pool binding or directional ordering")]
+    InvalidTickArray,
+    #[msg("Swap amount and minimum output must both be positive")]
+    InvalidSwapAmount,
+    #[msg("Price limit must be bounded and in the swap direction")]
+    InvalidPriceLimit,
+    #[msg("Raydium must consume the full exact input amount")]
+    PartialSwap,
+    #[msg("Swap output or token balance delta is invalid")]
+    InvalidSwapDelta,
+    #[msg("Quote assets or recorded quote exposure remain unsettled")]
+    UnsettledStrategy,
 }
