@@ -1,0 +1,1362 @@
+{
+  "version": 1,
+  "cluster": "devnet",
+  "program": "7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH",
+  "wallet": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+  "pool": "CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b",
+  "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+  "binaryHash": "f3890004ec02a10cfe4e4d05d476db3c9217ec6674d0b2a2ac660d3a164849de",
+  "baseline": {
+    "7jpsMqQMRwMJS9mmVHiXWAL5jCR1iJ8SfLya1YprMCEA": "2ed67502026350fcc3749d9542797b1f3160fbb0bd46676cf7b25ac82127ad7f",
+    "3rRZQFXJZcyFinsPcn4aYdJaC7FCoD2UMdmrrzPF5pom": "b4aa8a36a791da0d9682758b6ec8352ea574114ddf70f8c68a53ae1745d1961d",
+    "FK3fggzxrdzEow6tsUs8LUMR6YXgzBL4bRFopeJzBEtE": "4ec12a2d15895e47d4bb6f6b344651b083c6c2dd91a504dcdccad74a20ca65a9",
+    "6jtnv8sconTzJapKGFv4FMGfCs73pFnDay3xmNkVCqm5": "26776c8d1eff3d997c1f589654ac0a172512ccdd2d90920df738e6f3997f66f7",
+    "BKFDKZTEdkh2fhU6QyvkJoHRbvCK6MPFN8zvHhxNCp35": "752bb2d874e21fb9f3e53e626adfd5840b0e475b56c24ca34e2871bdaf13c26a",
+    "6737maPxu8QLVGpzPq2F2HyZy1pWWtF9bBRcWNMaXnji": "863a1472e197d6171be8d0bedde2b8cbf9a7d5c04ab95f28bd365cab17acf2f8",
+    "8Y3rCCZrTTSBaShqtNNPwJ8Xxw2EJcg46rCfG8LgDkj7": "0f714d841fbbe2eb80458e5d20c11c36356baeeb0614aad32b7cacc0bdc53f13",
+    "6ypFC13nnEyjTQPZwJQ52btusxyXgmxawsH6ApmD72Fc": "3bc41190da8adb1a4346e868846847bb9155a641d7d767bf3d318e156e887739",
+    "9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP": "29b935c5cf67f6f8a0ed839c9025fd160da9fc201cbf40365dd1af81b4c88aaa",
+    "FGWg89P3tk45pxLHCy8u1A564jPaVHCJjJnk923iKhyG": "29b935c5cf67f6f8a0ed839c9025fd160da9fc201cbf40365dd1af81b4c88aaa"
+  },
+  "receipts": {
+    "start": {
+      "signature": "RVALmiz2Vnoev3xen8EvGDciNtjLs9Y36CfGD8T7rbXzotTm2ZuupQaP1KHJXyaNPNZRbXzyW31A4tkXUBywAfv",
+      "blockhash": "6jkd2TMLJCGkkseX6pvu9J9YQ93yqdwwGNn96m73S3vH",
+      "lastValidBlockHeight": 502199555,
+      "status": "finalized",
+      "slot": 514998724
+    },
+    "prepareB": {
+      "signature": "3WLmiTy2yS17CCRq5Q1sqjwkPUYUEWHV9QcULbtAvyjR82qJLwf7ovqjc6iLdbBEf5oDhzokP95QdepD8hHi6MV7",
+      "blockhash": "Di2QVxpv1gS4fBHdijZNCW1sV5hWLgJD3Tg9JCcZdMAo",
+      "lastValidBlockHeight": 502199611,
+      "status": "finalized",
+      "slot": 514998780
+    },
+    "open": {
+      "signature": "27aGJQmETziSEUY78YYQHBxtg83nqe7pr6kMxrRd3kYjh1GgLn8NXWSdrgWERSD5FKkyQBMA8exrX8vMfsXganXM",
+      "blockhash": "37z4hwPxdozp3Fpigix5F2ffmngZ2yEXahyn3vcKy1rQ",
+      "lastValidBlockHeight": 502199668,
+      "status": "finalized",
+      "slot": 514998836
+    },
+    "increase": {
+      "signature": "s5DLesejbHXLNGYsA9mZGfmp48cHVB21L3NF3LpExx6NScZPjVM4fkzgb1BD88CtpZGvH84YWuw88Mpbw6E95kF",
+      "blockhash": "DdPGaFqbokmMePYweUDYKKwGKdnpn8nvPCzU72Wbz8cJ",
+      "lastValidBlockHeight": 502199724,
+      "status": "finalized",
+      "slot": 514998892
+    },
+    "externalSwap": {
+      "signature": "3rcHDe2zhLWkB2wMbdre7s32XhQV6amJfueLpmJHi9xGbGRLedVkLzWQdKhmjUfC4Wcb7NpDzHAXAcYr1bsf5Vdh",
+      "blockhash": "GVnkjgvJz6bfTEw92JnendVeiyHKaCw3W9Me6wu7e6D4",
+      "lastValidBlockHeight": 502199787,
+      "status": "finalized",
+      "slot": 514998956
+    },
+    "collect": {
+      "signature": "5vhWEMgKcGFbNYhkZGZ4gvWhaCoHbKUhGEFNm11xLki69T7tM8wmZMDhMQwH3TCzAM9zewgq1H8ApFBNyLt4V1NH",
+      "blockhash": "5Eis6R4LPQBhBvPCxo31bcQYdbUubQnqC38y5rzeubAF",
+      "lastValidBlockHeight": 502199844,
+      "status": "finalized",
+      "slot": 514999013
+    },
+    "decreasePartial": {
+      "signature": "2vPt8QYcPuQxetUZAa9CA3oC28Ya8De3CjQEZN27Xt5j7QpSWf3sMN22aC9814tsXJc9HucMPYC6PsY1YnRKYa3z",
+      "blockhash": "6EfZA7wAZBFuqwmpM8bf6czurTzai5ZrznL1J8McYhzS",
+      "lastValidBlockHeight": 502199902,
+      "status": "finalized",
+      "slot": 514999072
+    },
+    "decreaseAll": {
+      "signature": "2GYBPNw3479WaCWwFZuuGsiP11CLzxFv78XYgnqUVTGgwXh4kWB6xkzpcNbiCq6FaW6Z9pygwkDR91nH2Hueu6yz",
+      "blockhash": "gTk1KzjPcQ5cBjyt4crK8dn3VE6jhtba5D5zouqUyTY",
+      "lastValidBlockHeight": 502199964,
+      "status": "finalized",
+      "slot": 514999134
+    },
+    "close": {
+      "signature": "4fedETSazi2cVYF6uSyctEJCDzhcmRmFQKcaAmGsJNQjtEdu8ZuAXodG2dfWoSq24dTDQHKb7gD9Hn6zQEXyUDzp",
+      "blockhash": "2Umryw3VTR4jCQ2WFnN3nYYRqubnT9jGTvTtJ4qsoZbu",
+      "lastValidBlockHeight": 502200020,
+      "status": "finalized",
+      "slot": 514999190
+    },
+    "convertToA": {
+      "signature": "4zAR379cgkNsBRGfEKizjXGac6JwvqdFmgZZzr5cSmJEvBgXby7DDsqbz2C4rQfqWNyPyT4znA6QgfaTmVxFjBN9",
+      "blockhash": "NpupkGKg361rqcJ5gdooodqZw5EaaVA9FxqSiir7wtE",
+      "lastValidBlockHeight": 502200078,
+      "status": "finalized",
+      "slot": 514999248
+    },
+    "end": {
+      "signature": "2zWt1TpxcvUsr9upruCStE5fdgst5xvHx6maUEHPywQq1JUR8Ya9q21Kw3FgbpnJ8e96BNzgwPf3EBPar7CVZm1u",
+      "blockhash": "CRx5ZZpt4boiZM4GxqgHjGnZeRTtqABX3s1RFBxGDrrK",
+      "lastValidBlockHeight": 502200134,
+      "status": "finalized",
+      "slot": 514999302
+    },
+    "depositAfterEnd": {
+      "signature": "5JKBT7pFuJ1yH9LGBqWzRE69kEEPFikjpALYGmkkjSWpdz7SWibtWSs3xUasjF3XW4ssiRHiJeKHww9YcyzAk4W",
+      "blockhash": "7fQr5JFScLDsWwToju186GdAmj6vdRSxetjNGYfSVpr6",
+      "lastValidBlockHeight": 502200190,
+      "status": "finalized",
+      "slot": 514999358
+    },
+    "withdrawAfterEnd": {
+      "signature": "35WxorM7aEWFjuzt15DK93eRsPNqYT6wMBJTF2FYqEaiCqABj2nJ2Av1Q67xnaMUykaU2gMJeVj4rUcdJoYFgdWB",
+      "blockhash": "EhZbhzchqPPystabKf1TtqqsmMhyHzJY5mmBzm9SKr7i",
+      "lastValidBlockHeight": 502200247,
+      "status": "finalized",
+      "slot": 514999416
+    }
+  },
+  "snapshots": {
+    "before": {
+      "a": "999950",
+      "b": "0",
+      "supply": "1000000",
+      "userA": "88999999",
+      "userB": "90000000",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 1,
+      "active": false,
+      "recordedB": "0",
+      "swapCount": "2",
+      "vaultLamports": 1361440,
+      "poolA": "10000051",
+      "poolB": "10000000",
+      "tick": -1,
+      "sqrtPriceX64": "18446742672331896339",
+      "poolLiquidity": "338374998",
+      "feeGrowthGlobalA": "1144829339748",
+      "feeGrowthGlobalB": "1144829339748",
+      "nft": null,
+      "mintExists": false,
+      "personalExists": false,
+      "position": null,
+      "record": null,
+      "analysis": {
+        "principalA": "0",
+        "principalB": "0",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "999950",
+        "principalPnlVsHoldAtCurrentSpot": "0",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "start": {
+      "a": "999950",
+      "b": "0",
+      "supply": "1000000",
+      "userA": "88999999",
+      "userB": "90000000",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 129,
+      "active": true,
+      "recordedB": "0",
+      "swapCount": "2",
+      "vaultLamports": 1361440,
+      "poolA": "10000051",
+      "poolB": "10000000",
+      "tick": -1,
+      "sqrtPriceX64": "18446742672331896339",
+      "poolLiquidity": "338374998",
+      "feeGrowthGlobalA": "1144829339748",
+      "feeGrowthGlobalB": "1144829339748",
+      "nft": null,
+      "mintExists": false,
+      "personalExists": false,
+      "position": null,
+      "record": null,
+      "analysis": {
+        "principalA": "0",
+        "principalB": "0",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "999950",
+        "principalPnlVsHoldAtCurrentSpot": "0",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "prepareB": {
+      "a": "549950",
+      "b": "448280",
+      "supply": "1000000",
+      "userA": "88999999",
+      "userB": "90000000",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 129,
+      "active": true,
+      "recordedB": "448280",
+      "swapCount": "3",
+      "vaultLamports": 1361440,
+      "poolA": "10450051",
+      "poolB": "9551720",
+      "tick": -27,
+      "sqrtPriceX64": "18422304367806544930",
+      "poolLiquidity": "338374998",
+      "feeGrowthGlobalA": "52662149628451",
+      "feeGrowthGlobalB": "1144829339748",
+      "nft": null,
+      "mintExists": false,
+      "personalExists": false,
+      "position": null,
+      "record": null,
+      "analysis": {
+        "principalA": "0",
+        "principalB": "0",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "999420",
+        "principalPnlVsHoldAtCurrentSpot": "0",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "open": {
+      "a": "549950",
+      "b": "448280",
+      "supply": "1000000",
+      "userA": "88999999",
+      "userB": "90000000",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 193,
+      "active": true,
+      "recordedB": "448280",
+      "swapCount": "3",
+      "vaultLamports": 1361440,
+      "poolA": "10450051",
+      "poolB": "9551720",
+      "tick": -27,
+      "sqrtPriceX64": "18422304367806544930",
+      "poolLiquidity": "338374998",
+      "feeGrowthGlobalA": "52662149628451",
+      "feeGrowthGlobalB": "1144829339748",
+      "nft": {
+        "owner": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+        "mint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "amount": "1",
+        "supply": "1",
+        "decimals": 0
+      },
+      "mintExists": true,
+      "personalExists": true,
+      "position": {
+        "address": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "liquidity": "0",
+        "lower": -660,
+        "upper": 540,
+        "owedA": "0",
+        "owedB": "0",
+        "checkpointA": "0",
+        "checkpointB": "0",
+        "rewardOwed": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "record": {
+        "open": true,
+        "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "liquidity": "0",
+        "lower": -660,
+        "upper": 540,
+        "depositedA": "0",
+        "depositedB": "0",
+        "withdrawnA": "0",
+        "withdrawnB": "0",
+        "feesA": "0",
+        "feesB": "0",
+        "cycle": "1",
+        "rentReturned": "0"
+      },
+      "analysis": {
+        "principalA": "0",
+        "principalB": "0",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "999420",
+        "principalPnlVsHoldAtCurrentSpot": "0",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "increase": {
+      "a": "235595",
+      "b": "98280",
+      "supply": "1000000",
+      "userA": "88999999",
+      "userB": "90000000",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 193,
+      "active": true,
+      "recordedB": "98280",
+      "swapCount": "3",
+      "vaultLamports": 1361440,
+      "poolA": "10764406",
+      "poolB": "9901720",
+      "tick": -27,
+      "sqrtPriceX64": "18422304367806544930",
+      "poolLiquidity": "349616378",
+      "feeGrowthGlobalA": "52662149628451",
+      "feeGrowthGlobalB": "1144829339748",
+      "nft": {
+        "owner": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+        "mint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "amount": "1",
+        "supply": "1",
+        "decimals": 0
+      },
+      "mintExists": true,
+      "personalExists": true,
+      "position": {
+        "address": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "liquidity": "11241380",
+        "lower": -660,
+        "upper": 540,
+        "owedA": "0",
+        "owedB": "0",
+        "checkpointA": "0",
+        "checkpointB": "0",
+        "rewardOwed": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "record": {
+        "open": true,
+        "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "liquidity": "11241380",
+        "lower": -660,
+        "upper": 540,
+        "depositedA": "314355",
+        "depositedB": "350000",
+        "withdrawnA": "0",
+        "withdrawnB": "0",
+        "feesA": "0",
+        "feesB": "0",
+        "cycle": "1",
+        "rentReturned": "0"
+      },
+      "analysis": {
+        "principalA": "314354",
+        "principalB": "349999",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "999418",
+        "principalPnlVsHoldAtCurrentSpot": "-2",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "externalSwap": {
+      "a": "235595",
+      "b": "98280",
+      "supply": "1000000",
+      "userA": "88899999",
+      "userB": "90099457",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 193,
+      "active": true,
+      "recordedB": "98280",
+      "swapCount": "3",
+      "vaultLamports": 1361440,
+      "poolA": "10864406",
+      "poolB": "9802263",
+      "tick": -33,
+      "sqrtPriceX64": "18417056708987078715",
+      "poolLiquidity": "349616378",
+      "feeGrowthGlobalA": "63742340658514",
+      "feeGrowthGlobalB": "1144829339748",
+      "nft": {
+        "owner": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+        "mint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "amount": "1",
+        "supply": "1",
+        "decimals": 0
+      },
+      "mintExists": true,
+      "personalExists": true,
+      "position": {
+        "address": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "liquidity": "11241380",
+        "lower": -660,
+        "upper": 540,
+        "owedA": "0",
+        "owedB": "0",
+        "checkpointA": "0",
+        "checkpointB": "0",
+        "rewardOwed": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "record": {
+        "open": true,
+        "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "liquidity": "11241380",
+        "lower": -660,
+        "upper": 540,
+        "depositedA": "314355",
+        "depositedB": "350000",
+        "withdrawnA": "0",
+        "withdrawnB": "0",
+        "feesA": "0",
+        "feesB": "0",
+        "cycle": "1",
+        "rentReturned": "0"
+      },
+      "analysis": {
+        "principalA": "317562",
+        "principalB": "346802",
+        "estimatedFeeA": "6",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "999681",
+        "principalPnlVsHoldAtCurrentSpot": "-2",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "collect": {
+      "a": "235601",
+      "b": "98280",
+      "supply": "1000000",
+      "userA": "88899999",
+      "userB": "90099457",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 193,
+      "active": true,
+      "recordedB": "98280",
+      "swapCount": "3",
+      "vaultLamports": 1361440,
+      "poolA": "10864400",
+      "poolB": "9802263",
+      "tick": -33,
+      "sqrtPriceX64": "18417056708987078715",
+      "poolLiquidity": "349616378",
+      "feeGrowthGlobalA": "63742340658514",
+      "feeGrowthGlobalB": "1144829339748",
+      "nft": {
+        "owner": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+        "mint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "amount": "1",
+        "supply": "1",
+        "decimals": 0
+      },
+      "mintExists": true,
+      "personalExists": true,
+      "position": {
+        "address": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "liquidity": "11241380",
+        "lower": -660,
+        "upper": 540,
+        "owedA": "0",
+        "owedB": "0",
+        "checkpointA": "11080191030063",
+        "checkpointB": "0",
+        "rewardOwed": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "record": {
+        "open": true,
+        "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "liquidity": "11241380",
+        "lower": -660,
+        "upper": 540,
+        "depositedA": "314355",
+        "depositedB": "350000",
+        "withdrawnA": "0",
+        "withdrawnB": "0",
+        "feesA": "6",
+        "feesB": "0",
+        "cycle": "1",
+        "rentReturned": "0"
+      },
+      "analysis": {
+        "principalA": "317562",
+        "principalB": "346802",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "999681",
+        "principalPnlVsHoldAtCurrentSpot": "-2",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "decreasePartial": {
+      "a": "394382",
+      "b": "271681",
+      "supply": "1000000",
+      "userA": "88899999",
+      "userB": "90099457",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 193,
+      "active": true,
+      "recordedB": "271681",
+      "swapCount": "3",
+      "vaultLamports": 1361440,
+      "poolA": "10705619",
+      "poolB": "9628862",
+      "tick": -33,
+      "sqrtPriceX64": "18417056708987078715",
+      "poolLiquidity": "343995688",
+      "feeGrowthGlobalA": "63742340658514",
+      "feeGrowthGlobalB": "1144829339748",
+      "nft": {
+        "owner": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+        "mint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "amount": "1",
+        "supply": "1",
+        "decimals": 0
+      },
+      "mintExists": true,
+      "personalExists": true,
+      "position": {
+        "address": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "liquidity": "5620690",
+        "lower": -660,
+        "upper": 540,
+        "owedA": "0",
+        "owedB": "0",
+        "checkpointA": "11080191030063",
+        "checkpointB": "0",
+        "rewardOwed": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "record": {
+        "open": true,
+        "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "liquidity": "5620690",
+        "lower": -660,
+        "upper": 540,
+        "depositedA": "314355",
+        "depositedB": "350000",
+        "withdrawnA": "158781",
+        "withdrawnB": "173401",
+        "feesA": "6",
+        "feesB": "0",
+        "cycle": "1",
+        "rentReturned": "0"
+      },
+      "analysis": {
+        "principalA": "158781",
+        "principalB": "173401",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "999681",
+        "principalPnlVsHoldAtCurrentSpot": "-2",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "decreaseAll": {
+      "a": "553163",
+      "b": "445082",
+      "supply": "1000000",
+      "userA": "88899999",
+      "userB": "90099457",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 193,
+      "active": true,
+      "recordedB": "445082",
+      "swapCount": "3",
+      "vaultLamports": 1361440,
+      "poolA": "10546838",
+      "poolB": "9455461",
+      "tick": -33,
+      "sqrtPriceX64": "18417056708987078715",
+      "poolLiquidity": "338374998",
+      "feeGrowthGlobalA": "63742340658514",
+      "feeGrowthGlobalB": "1144829339748",
+      "nft": {
+        "owner": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+        "mint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "amount": "1",
+        "supply": "1",
+        "decimals": 0
+      },
+      "mintExists": true,
+      "personalExists": true,
+      "position": {
+        "address": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "liquidity": "0",
+        "lower": -660,
+        "upper": 540,
+        "owedA": "0",
+        "owedB": "0",
+        "checkpointA": "11080191030063",
+        "checkpointB": "0",
+        "rewardOwed": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "record": {
+        "open": true,
+        "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "liquidity": "0",
+        "lower": -660,
+        "upper": 540,
+        "depositedA": "314355",
+        "depositedB": "350000",
+        "withdrawnA": "317562",
+        "withdrawnB": "346802",
+        "feesA": "6",
+        "feesB": "0",
+        "cycle": "1",
+        "rentReturned": "0"
+      },
+      "analysis": {
+        "principalA": "0",
+        "principalB": "0",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "999681",
+        "principalPnlVsHoldAtCurrentSpot": "-2",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "close": {
+      "a": "553163",
+      "b": "445082",
+      "supply": "1000000",
+      "userA": "88899999",
+      "userB": "90099457",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 129,
+      "active": true,
+      "recordedB": "445082",
+      "swapCount": "3",
+      "vaultLamports": 6629400,
+      "poolA": "10546838",
+      "poolB": "9455461",
+      "tick": -33,
+      "sqrtPriceX64": "18417056708987078715",
+      "poolLiquidity": "338374998",
+      "feeGrowthGlobalA": "63742340658514",
+      "feeGrowthGlobalB": "1144829339748",
+      "nft": null,
+      "mintExists": false,
+      "personalExists": false,
+      "position": null,
+      "record": {
+        "open": false,
+        "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "liquidity": "0",
+        "lower": -660,
+        "upper": 540,
+        "depositedA": "314355",
+        "depositedB": "350000",
+        "withdrawnA": "317562",
+        "withdrawnB": "346802",
+        "feesA": "6",
+        "feesB": "0",
+        "cycle": "1",
+        "rentReturned": "5267960"
+      },
+      "analysis": {
+        "principalA": "0",
+        "principalB": "0",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "999681",
+        "principalPnlVsHoldAtCurrentSpot": "-2",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "convertToA": {
+      "a": "997979",
+      "b": "0",
+      "supply": "1000000",
+      "userA": "88899999",
+      "userB": "90099457",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 129,
+      "active": true,
+      "recordedB": "0",
+      "swapCount": "4",
+      "vaultLamports": 6629400,
+      "poolA": "10102022",
+      "poolB": "9900543",
+      "tick": -6,
+      "sqrtPriceX64": "18441259982184174547",
+      "poolLiquidity": "338374998",
+      "feeGrowthGlobalA": "63742340658514",
+      "feeGrowthGlobalB": "52171508482845",
+      "nft": null,
+      "mintExists": false,
+      "personalExists": false,
+      "position": null,
+      "record": {
+        "open": false,
+        "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "liquidity": "0",
+        "lower": -660,
+        "upper": 540,
+        "depositedA": "314355",
+        "depositedB": "350000",
+        "withdrawnA": "317562",
+        "withdrawnB": "346802",
+        "feesA": "6",
+        "feesB": "0",
+        "cycle": "1",
+        "rentReturned": "5267960"
+      },
+      "analysis": {
+        "principalA": "0",
+        "principalB": "0",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "997979",
+        "principalPnlVsHoldAtCurrentSpot": "7",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "end": {
+      "a": "997979",
+      "b": "0",
+      "supply": "1000000",
+      "userA": "88899999",
+      "userB": "90099457",
+      "userShares": "1000000",
+      "history": "1001000",
+      "version": 1,
+      "active": false,
+      "recordedB": "0",
+      "swapCount": "4",
+      "vaultLamports": 6629400,
+      "poolA": "10102022",
+      "poolB": "9900543",
+      "tick": -6,
+      "sqrtPriceX64": "18441259982184174547",
+      "poolLiquidity": "338374998",
+      "feeGrowthGlobalA": "63742340658514",
+      "feeGrowthGlobalB": "52171508482845",
+      "nft": null,
+      "mintExists": false,
+      "personalExists": false,
+      "position": null,
+      "record": {
+        "open": false,
+        "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "liquidity": "0",
+        "lower": -660,
+        "upper": 540,
+        "depositedA": "314355",
+        "depositedB": "350000",
+        "withdrawnA": "317562",
+        "withdrawnB": "346802",
+        "feesA": "6",
+        "feesB": "0",
+        "cycle": "1",
+        "rentReturned": "5267960"
+      },
+      "analysis": {
+        "principalA": "0",
+        "principalB": "0",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "997979",
+        "principalPnlVsHoldAtCurrentSpot": "7",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "depositAfterEnd": {
+      "a": "998979",
+      "b": "0",
+      "supply": "1001002",
+      "userA": "88898999",
+      "userB": "90099457",
+      "userShares": "1001002",
+      "history": "1002002",
+      "version": 1,
+      "active": false,
+      "recordedB": "0",
+      "swapCount": "4",
+      "vaultLamports": 6629400,
+      "poolA": "10102022",
+      "poolB": "9900543",
+      "tick": -6,
+      "sqrtPriceX64": "18441259982184174547",
+      "poolLiquidity": "338374998",
+      "feeGrowthGlobalA": "63742340658514",
+      "feeGrowthGlobalB": "52171508482845",
+      "nft": null,
+      "mintExists": false,
+      "personalExists": false,
+      "position": null,
+      "record": {
+        "open": false,
+        "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "liquidity": "0",
+        "lower": -660,
+        "upper": 540,
+        "depositedA": "314355",
+        "depositedB": "350000",
+        "withdrawnA": "317562",
+        "withdrawnB": "346802",
+        "feesA": "6",
+        "feesB": "0",
+        "cycle": "1",
+        "rentReturned": "5267960"
+      },
+      "analysis": {
+        "principalA": "0",
+        "principalB": "0",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "998979",
+        "principalPnlVsHoldAtCurrentSpot": "7",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    },
+    "withdrawAfterEnd": {
+      "a": "997982",
+      "b": "0",
+      "supply": "1000002",
+      "userA": "88899996",
+      "userB": "90099457",
+      "userShares": "1000002",
+      "history": "1002002",
+      "version": 1,
+      "active": false,
+      "recordedB": "0",
+      "swapCount": "4",
+      "vaultLamports": 6629400,
+      "poolA": "10102022",
+      "poolB": "9900543",
+      "tick": -6,
+      "sqrtPriceX64": "18441259982184174547",
+      "poolLiquidity": "338374998",
+      "feeGrowthGlobalA": "63742340658514",
+      "feeGrowthGlobalB": "52171508482845",
+      "nft": null,
+      "mintExists": false,
+      "personalExists": false,
+      "position": null,
+      "record": {
+        "open": false,
+        "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+        "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+        "liquidity": "0",
+        "lower": -660,
+        "upper": 540,
+        "depositedA": "314355",
+        "depositedB": "350000",
+        "withdrawnA": "317562",
+        "withdrawnB": "346802",
+        "feesA": "6",
+        "feesB": "0",
+        "cycle": "1",
+        "rentReturned": "5267960"
+      },
+      "analysis": {
+        "principalA": "0",
+        "principalB": "0",
+        "estimatedFeeA": "0",
+        "estimatedFeeB": "0",
+        "spotNavABaseUnits": "997982",
+        "principalPnlVsHoldAtCurrentSpot": "7",
+        "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+        "rounding": "floor per conversion and withdrawal quote",
+        "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+      }
+    }
+  },
+  "quotes": {
+    "prepareB": {
+      "amount": "450000",
+      "minimum": "443797",
+      "limit": "18262275245608577375",
+      "simulatedOutput": "448280"
+    },
+    "increase": {
+      "liquidity": "11241380",
+      "amountA": "314355",
+      "amountB": "350000",
+      "maxA": "317499",
+      "maxB": "353500"
+    },
+    "decreasePartial": {
+      "liquidity": "5620690",
+      "minA": "157193",
+      "minB": "171666"
+    },
+    "decreaseAll": {
+      "liquidity": "5620690",
+      "minA": "157193",
+      "minB": "171666"
+    },
+    "convertToA": {
+      "amount": "445082",
+      "minimum": "440367",
+      "limit": "18601227276076949502",
+      "simulatedOutput": "444816"
+    }
+  },
+  "range": {
+    "lower": -660,
+    "upper": 540
+  },
+  "verifiedAt": "2026-10-25T14:26:25.088Z",
+  "deployment": {
+    "cluster": "devnet",
+    "program": "7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH",
+    "programData": "J5UyTo8E3xLcmttCxXYRNyTo48P3ZZDqzD28j7jTEopF",
+    "authority": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+    "binaryBytes": 571472,
+    "binaryHash": "f3890004ec02a10cfe4e4d05d476db3c9217ec6674d0b2a2ac660d3a164849de",
+    "binaryMatches": true,
+    "slot": "514998370",
+    "balanceLamports": 5276069680,
+    "upgradePeakLamports": 3003915960,
+    "raydium": {
+      "program": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+      "programData": "Dfhg7W2iDF6Kmoefx4XNaSMd7MvpNeR7Dg8HkZ6rCTwW",
+      "slot": "513147960",
+      "sha256": "60255f5ce990ef6ac6847e2316400d2dc2cb83968cb885bf44d6dfac2531ad43",
+      "bytes": 2528752
+    }
+  },
+  "addresses": {
+    "vault": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+    "strategy": "CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU",
+    "record": "AE8bAgsZiwdWuwXeqxowmDiNwkA9qLcuE9g8B1S85QPa",
+    "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+    "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+    "nftOwnerWhileOpen": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG"
+  },
+  "final": {
+    "a": "997982",
+    "b": "0",
+    "supply": "1000002",
+    "userA": "88899996",
+    "userB": "90099457",
+    "userShares": "1000002",
+    "history": "1002002",
+    "version": 1,
+    "active": false,
+    "recordedB": "0",
+    "swapCount": "4",
+    "vaultLamports": 6629400,
+    "poolA": "10102022",
+    "poolB": "9900543",
+    "tick": -6,
+    "sqrtPriceX64": "18441259982184174547",
+    "poolLiquidity": "338374998",
+    "feeGrowthGlobalA": "63742340658514",
+    "feeGrowthGlobalB": "52171508482845",
+    "nft": null,
+    "mintExists": false,
+    "personalExists": false,
+    "position": null,
+    "record": {
+      "open": false,
+      "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+      "nftMint": "FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb",
+      "liquidity": "0",
+      "lower": -660,
+      "upper": 540,
+      "depositedA": "314355",
+      "depositedB": "350000",
+      "withdrawnA": "317562",
+      "withdrawnB": "346802",
+      "feesA": "6",
+      "feesB": "0",
+      "cycle": "1",
+      "rentReturned": "5267960"
+    },
+    "analysis": {
+      "principalA": "0",
+      "principalB": "0",
+      "estimatedFeeA": "0",
+      "estimatedFeeB": "0",
+      "spotNavABaseUnits": "997982",
+      "principalPnlVsHoldAtCurrentSpot": "7",
+      "priceSource": "CLMM sqrtPriceX64 squared / 2^128; raw B per raw A; both mints have 6 decimals",
+      "rounding": "floor per conversion and withdrawal quote",
+      "warning": "Analytical spot mark only; manipulable, no oracle/TWAP and not a production NAV or share quote; collected fees already included in cash"
+    }
+  },
+  "transactions": [
+    {
+      "step": "start",
+      "signature": "RVALmiz2Vnoev3xen8EvGDciNtjLs9Y36CfGD8T7rbXzotTm2ZuupQaP1KHJXyaNPNZRbXzyW31A4tkXUBywAfv",
+      "slot": 514998724,
+      "explorer": "https://explorer.solana.com/tx/RVALmiz2Vnoev3xen8EvGDciNtjLs9Y36CfGD8T7rbXzotTm2ZuupQaP1KHJXyaNPNZRbXzyW31A4tkXUBywAfv?cluster=devnet",
+      "invocations": [],
+      "events": []
+    },
+    {
+      "step": "prepareB",
+      "signature": "3WLmiTy2yS17CCRq5Q1sqjwkPUYUEWHV9QcULbtAvyjR82qJLwf7ovqjc6iLdbBEf5oDhzokP95QdepD8hHi6MV7",
+      "slot": 514998780,
+      "explorer": "https://explorer.solana.com/tx/3WLmiTy2yS17CCRq5Q1sqjwkPUYUEWHV9QcULbtAvyjR82qJLwf7ovqjc6iLdbBEf5oDhzokP95QdepD8hHi6MV7?cluster=devnet",
+      "invocations": [
+        {
+          "name": "swap_v2",
+          "authority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+          "stackHeight": 2
+        }
+      ],
+      "events": [
+        {
+          "name": "strategySwapEvent",
+          "data": {
+            "vault": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+            "pool": "CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b",
+            "aToB": true,
+            "spent": "450000",
+            "received": "448280",
+            "assetsAfter": "549950",
+            "quoteAfter": "448280"
+          }
+        }
+      ]
+    },
+    {
+      "step": "open",
+      "signature": "27aGJQmETziSEUY78YYQHBxtg83nqe7pr6kMxrRd3kYjh1GgLn8NXWSdrgWERSD5FKkyQBMA8exrX8vMfsXganXM",
+      "slot": 514998836,
+      "explorer": "https://explorer.solana.com/tx/27aGJQmETziSEUY78YYQHBxtg83nqe7pr6kMxrRd3kYjh1GgLn8NXWSdrgWERSD5FKkyQBMA8exrX8vMfsXganXM?cluster=devnet",
+      "invocations": [
+        {
+          "name": "open_position_with_token22_nft",
+          "authority": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+          "stackHeight": 2
+        }
+      ],
+      "events": [
+        {
+          "name": "liquidityEvent",
+          "data": {
+            "strategy": "CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU",
+            "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+            "operation": 0,
+            "liquidity": "0",
+            "amountA": "0",
+            "amountB": "0",
+            "feesA": "0",
+            "feesB": "0"
+          }
+        }
+      ]
+    },
+    {
+      "step": "increase",
+      "signature": "s5DLesejbHXLNGYsA9mZGfmp48cHVB21L3NF3LpExx6NScZPjVM4fkzgb1BD88CtpZGvH84YWuw88Mpbw6E95kF",
+      "slot": 514998892,
+      "explorer": "https://explorer.solana.com/tx/s5DLesejbHXLNGYsA9mZGfmp48cHVB21L3NF3LpExx6NScZPjVM4fkzgb1BD88CtpZGvH84YWuw88Mpbw6E95kF?cluster=devnet",
+      "invocations": [
+        {
+          "name": "increase_liquidity_v2",
+          "authority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+          "stackHeight": 2
+        }
+      ],
+      "events": [
+        {
+          "name": "liquidityEvent",
+          "data": {
+            "strategy": "CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU",
+            "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+            "operation": 1,
+            "liquidity": "11241380",
+            "amountA": "314355",
+            "amountB": "350000",
+            "feesA": "0",
+            "feesB": "0"
+          }
+        }
+      ]
+    },
+    {
+      "step": "externalSwap",
+      "signature": "3rcHDe2zhLWkB2wMbdre7s32XhQV6amJfueLpmJHi9xGbGRLedVkLzWQdKhmjUfC4Wcb7NpDzHAXAcYr1bsf5Vdh",
+      "slot": 514998956,
+      "explorer": "https://explorer.solana.com/tx/3rcHDe2zhLWkB2wMbdre7s32XhQV6amJfueLpmJHi9xGbGRLedVkLzWQdKhmjUfC4Wcb7NpDzHAXAcYr1bsf5Vdh?cluster=devnet",
+      "invocations": [
+        {
+          "name": "swap_v2",
+          "authority": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+          "stackHeight": 1
+        }
+      ],
+      "events": []
+    },
+    {
+      "step": "collect",
+      "signature": "5vhWEMgKcGFbNYhkZGZ4gvWhaCoHbKUhGEFNm11xLki69T7tM8wmZMDhMQwH3TCzAM9zewgq1H8ApFBNyLt4V1NH",
+      "slot": 514999013,
+      "explorer": "https://explorer.solana.com/tx/5vhWEMgKcGFbNYhkZGZ4gvWhaCoHbKUhGEFNm11xLki69T7tM8wmZMDhMQwH3TCzAM9zewgq1H8ApFBNyLt4V1NH?cluster=devnet",
+      "invocations": [
+        {
+          "name": "decrease_liquidity_v2",
+          "authority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+          "stackHeight": 2
+        }
+      ],
+      "events": [
+        {
+          "name": "liquidityEvent",
+          "data": {
+            "strategy": "CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU",
+            "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+            "operation": 2,
+            "liquidity": "11241380",
+            "amountA": "6",
+            "amountB": "0",
+            "feesA": "6",
+            "feesB": "0"
+          }
+        }
+      ]
+    },
+    {
+      "step": "decreasePartial",
+      "signature": "2vPt8QYcPuQxetUZAa9CA3oC28Ya8De3CjQEZN27Xt5j7QpSWf3sMN22aC9814tsXJc9HucMPYC6PsY1YnRKYa3z",
+      "slot": 514999072,
+      "explorer": "https://explorer.solana.com/tx/2vPt8QYcPuQxetUZAa9CA3oC28Ya8De3CjQEZN27Xt5j7QpSWf3sMN22aC9814tsXJc9HucMPYC6PsY1YnRKYa3z?cluster=devnet",
+      "invocations": [
+        {
+          "name": "decrease_liquidity_v2",
+          "authority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+          "stackHeight": 2
+        },
+        {
+          "name": "decrease_liquidity_v2",
+          "authority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+          "stackHeight": 2
+        }
+      ],
+      "events": [
+        {
+          "name": "liquidityEvent",
+          "data": {
+            "strategy": "CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU",
+            "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+            "operation": 2,
+            "liquidity": "11241380",
+            "amountA": "0",
+            "amountB": "0",
+            "feesA": "6",
+            "feesB": "0"
+          }
+        },
+        {
+          "name": "liquidityEvent",
+          "data": {
+            "strategy": "CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU",
+            "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+            "operation": 3,
+            "liquidity": "5620690",
+            "amountA": "158781",
+            "amountB": "173401",
+            "feesA": "6",
+            "feesB": "0"
+          }
+        }
+      ]
+    },
+    {
+      "step": "decreaseAll",
+      "signature": "2GYBPNw3479WaCWwFZuuGsiP11CLzxFv78XYgnqUVTGgwXh4kWB6xkzpcNbiCq6FaW6Z9pygwkDR91nH2Hueu6yz",
+      "slot": 514999134,
+      "explorer": "https://explorer.solana.com/tx/2GYBPNw3479WaCWwFZuuGsiP11CLzxFv78XYgnqUVTGgwXh4kWB6xkzpcNbiCq6FaW6Z9pygwkDR91nH2Hueu6yz?cluster=devnet",
+      "invocations": [
+        {
+          "name": "decrease_liquidity_v2",
+          "authority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+          "stackHeight": 2
+        },
+        {
+          "name": "decrease_liquidity_v2",
+          "authority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+          "stackHeight": 2
+        }
+      ],
+      "events": [
+        {
+          "name": "liquidityEvent",
+          "data": {
+            "strategy": "CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU",
+            "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+            "operation": 2,
+            "liquidity": "5620690",
+            "amountA": "0",
+            "amountB": "0",
+            "feesA": "6",
+            "feesB": "0"
+          }
+        },
+        {
+          "name": "liquidityEvent",
+          "data": {
+            "strategy": "CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU",
+            "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+            "operation": 3,
+            "liquidity": "0",
+            "amountA": "158781",
+            "amountB": "173401",
+            "feesA": "6",
+            "feesB": "0"
+          }
+        }
+      ]
+    },
+    {
+      "step": "close",
+      "signature": "4fedETSazi2cVYF6uSyctEJCDzhcmRmFQKcaAmGsJNQjtEdu8ZuAXodG2dfWoSq24dTDQHKb7gD9Hn6zQEXyUDzp",
+      "slot": 514999190,
+      "explorer": "https://explorer.solana.com/tx/4fedETSazi2cVYF6uSyctEJCDzhcmRmFQKcaAmGsJNQjtEdu8ZuAXodG2dfWoSq24dTDQHKb7gD9Hn6zQEXyUDzp?cluster=devnet",
+      "invocations": [
+        {
+          "name": "close_position",
+          "authority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+          "stackHeight": 2
+        }
+      ],
+      "events": [
+        {
+          "name": "liquidityEvent",
+          "data": {
+            "strategy": "CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU",
+            "position": "Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs",
+            "operation": 4,
+            "liquidity": "0",
+            "amountA": "0",
+            "amountB": "0",
+            "feesA": "6",
+            "feesB": "0"
+          }
+        }
+      ]
+    },
+    {
+      "step": "convertToA",
+      "signature": "4zAR379cgkNsBRGfEKizjXGac6JwvqdFmgZZzr5cSmJEvBgXby7DDsqbz2C4rQfqWNyPyT4znA6QgfaTmVxFjBN9",
+      "slot": 514999248,
+      "explorer": "https://explorer.solana.com/tx/4zAR379cgkNsBRGfEKizjXGac6JwvqdFmgZZzr5cSmJEvBgXby7DDsqbz2C4rQfqWNyPyT4znA6QgfaTmVxFjBN9?cluster=devnet",
+      "invocations": [
+        {
+          "name": "swap_v2",
+          "authority": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+          "stackHeight": 2
+        }
+      ],
+      "events": [
+        {
+          "name": "strategySwapEvent",
+          "data": {
+            "vault": "7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG",
+            "pool": "CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b",
+            "aToB": false,
+            "spent": "445082",
+            "received": "444816",
+            "assetsAfter": "997979",
+            "quoteAfter": "0"
+          }
+        }
+      ]
+    },
+    {
+      "step": "end",
+      "signature": "2zWt1TpxcvUsr9upruCStE5fdgst5xvHx6maUEHPywQq1JUR8Ya9q21Kw3FgbpnJ8e96BNzgwPf3EBPar7CVZm1u",
+      "slot": 514999302,
+      "explorer": "https://explorer.solana.com/tx/2zWt1TpxcvUsr9upruCStE5fdgst5xvHx6maUEHPywQq1JUR8Ya9q21Kw3FgbpnJ8e96BNzgwPf3EBPar7CVZm1u?cluster=devnet",
+      "invocations": [],
+      "events": []
+    },
+    {
+      "step": "depositAfterEnd",
+      "signature": "5JKBT7pFuJ1yH9LGBqWzRE69kEEPFikjpALYGmkkjSWpdz7SWibtWSs3xUasjF3XW4ssiRHiJeKHww9YcyzAk4W",
+      "slot": 514999358,
+      "explorer": "https://explorer.solana.com/tx/5JKBT7pFuJ1yH9LGBqWzRE69kEEPFikjpALYGmkkjSWpdz7SWibtWSs3xUasjF3XW4ssiRHiJeKHww9YcyzAk4W?cluster=devnet",
+      "invocations": [],
+      "events": []
+    },
+    {
+      "step": "withdrawAfterEnd",
+      "signature": "35WxorM7aEWFjuzt15DK93eRsPNqYT6wMBJTF2FYqEaiCqABj2nJ2Av1Q67xnaMUykaU2gMJeVj4rUcdJoYFgdWB",
+      "slot": 514999416,
+      "explorer": "https://explorer.solana.com/tx/35WxorM7aEWFjuzt15DK93eRsPNqYT6wMBJTF2FYqEaiCqABj2nJ2Av1Q67xnaMUykaU2gMJeVj4rUcdJoYFgdWB?cluster=devnet",
+      "invocations": [],
+      "events": []
+    }
+  ],
+  "realizedStrategyDeltaA": "-1971",
+  "externalTrade": {
+    "payer": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+    "source": "personal wallet ATA, not Vault",
+    "amountA": "100000",
+    "count": 1
+  },
+  "links": {
+    "start": "https://explorer.solana.com/tx/RVALmiz2Vnoev3xen8EvGDciNtjLs9Y36CfGD8T7rbXzotTm2ZuupQaP1KHJXyaNPNZRbXzyW31A4tkXUBywAfv?cluster=devnet",
+    "prepareB": "https://explorer.solana.com/tx/3WLmiTy2yS17CCRq5Q1sqjwkPUYUEWHV9QcULbtAvyjR82qJLwf7ovqjc6iLdbBEf5oDhzokP95QdepD8hHi6MV7?cluster=devnet",
+    "open": "https://explorer.solana.com/tx/27aGJQmETziSEUY78YYQHBxtg83nqe7pr6kMxrRd3kYjh1GgLn8NXWSdrgWERSD5FKkyQBMA8exrX8vMfsXganXM?cluster=devnet",
+    "increase": "https://explorer.solana.com/tx/s5DLesejbHXLNGYsA9mZGfmp48cHVB21L3NF3LpExx6NScZPjVM4fkzgb1BD88CtpZGvH84YWuw88Mpbw6E95kF?cluster=devnet",
+    "externalSwap": "https://explorer.solana.com/tx/3rcHDe2zhLWkB2wMbdre7s32XhQV6amJfueLpmJHi9xGbGRLedVkLzWQdKhmjUfC4Wcb7NpDzHAXAcYr1bsf5Vdh?cluster=devnet",
+    "collect": "https://explorer.solana.com/tx/5vhWEMgKcGFbNYhkZGZ4gvWhaCoHbKUhGEFNm11xLki69T7tM8wmZMDhMQwH3TCzAM9zewgq1H8ApFBNyLt4V1NH?cluster=devnet",
+    "decreasePartial": "https://explorer.solana.com/tx/2vPt8QYcPuQxetUZAa9CA3oC28Ya8De3CjQEZN27Xt5j7QpSWf3sMN22aC9814tsXJc9HucMPYC6PsY1YnRKYa3z?cluster=devnet",
+    "decreaseAll": "https://explorer.solana.com/tx/2GYBPNw3479WaCWwFZuuGsiP11CLzxFv78XYgnqUVTGgwXh4kWB6xkzpcNbiCq6FaW6Z9pygwkDR91nH2Hueu6yz?cluster=devnet",
+    "close": "https://explorer.solana.com/tx/4fedETSazi2cVYF6uSyctEJCDzhcmRmFQKcaAmGsJNQjtEdu8ZuAXodG2dfWoSq24dTDQHKb7gD9Hn6zQEXyUDzp?cluster=devnet",
+    "convertToA": "https://explorer.solana.com/tx/4zAR379cgkNsBRGfEKizjXGac6JwvqdFmgZZzr5cSmJEvBgXby7DDsqbz2C4rQfqWNyPyT4znA6QgfaTmVxFjBN9?cluster=devnet",
+    "end": "https://explorer.solana.com/tx/2zWt1TpxcvUsr9upruCStE5fdgst5xvHx6maUEHPywQq1JUR8Ya9q21Kw3FgbpnJ8e96BNzgwPf3EBPar7CVZm1u?cluster=devnet",
+    "depositAfterEnd": "https://explorer.solana.com/tx/5JKBT7pFuJ1yH9LGBqWzRE69kEEPFikjpALYGmkkjSWpdz7SWibtWSs3xUasjF3XW4ssiRHiJeKHww9YcyzAk4W?cluster=devnet",
+    "withdrawAfterEnd": "https://explorer.solana.com/tx/35WxorM7aEWFjuzt15DK93eRsPNqYT6wMBJTF2FYqEaiCqABj2nJ2Av1Q67xnaMUykaU2gMJeVj4rUcdJoYFgdWB?cluster=devnet"
+  }
+}

@@ -7,7 +7,7 @@
     "node": ">=20.18.0"
   },
   "scripts": {
-    "test:integration": "ts-mocha -p ./tsconfig.json -t 120000 tests/**/*.ts",
+    "test:integration": "ts-mocha -p ./tsconfig.json -t 120000 \"tests/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "devnet:deposit": "ts-node scripts/devnet-deposit.ts",
     "devnet:withdraw": "ts-node scripts/devnet-withdraw.ts",
@@ -16,7 +16,9 @@
     "strategy:fixtures": "ts-node scripts/strategy/prepare-fixtures.ts",
     "strategy": "ts-node scripts/strategy/devnet.ts",
     "strategy:verify-upgrade": "ts-node scripts/strategy/verify-upgrade.ts",
-    "test:strategy-policy": "ts-mocha -p ./tsconfig.json scripts/strategy/policy.test.ts"
+    "test:strategy-policy": "ts-mocha -p ./tsconfig.json scripts/strategy/policy.test.ts",
+    "liquidity": "ts-node scripts/liquidity/devnet.ts",
+    "test:liquidity-policy": "ts-mocha -p ./tsconfig.json scripts/liquidity/policy.test.ts"
   },
   "dependencies": {
     "@coral-xyz/anchor": "0.31.1",

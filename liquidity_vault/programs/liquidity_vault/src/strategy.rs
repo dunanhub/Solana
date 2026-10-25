@@ -12,15 +12,22 @@ use anchor_spl::{
 
 pub const SCHEMA_VERSION: u8 = 1;
 pub const LOCKED_VERSION: u8 = 0x81;
+pub const POSITION_VERSION: u8 = 0xc1;
 
 pub fn require_unlocked(version: u8) -> Result<()> {
-    require!(version != LOCKED_VERSION, VaultError::StrategyActive);
+    require!(
+        !matches!(version, LOCKED_VERSION | POSITION_VERSION),
+        VaultError::StrategyActive
+    );
     require!(version == SCHEMA_VERSION, VaultError::InvalidStrategyState);
     Ok(())
 }
-fn require_active(version: u8, active: bool) -> Result<()> {
+pub(crate) fn require_active(version: u8, active: bool) -> Result<()> {
     require!(active, VaultError::StrategyInactive);
-    require!(version == LOCKED_VERSION, VaultError::InvalidStrategyState);
+    require!(
+        matches!(version, LOCKED_VERSION | POSITION_VERSION),
+        VaultError::InvalidStrategyState
+    );
     Ok(())
 }
 fn require_settled(actual_quote: u64, recorded_quote: u64) -> Result<()> {
@@ -210,6 +217,10 @@ pub fn start(ctx: Context<ManageStrategy>) -> Result<()> {
 }
 pub fn end(ctx: Context<ManageStrategy>) -> Result<()> {
     require_active(ctx.accounts.vault.version, ctx.accounts.strategy.active)?;
+    require!(
+        ctx.accounts.vault.version != POSITION_VERSION,
+        VaultError::PositionStillOpen
+    );
     require_settled(
         ctx.accounts.quote_vault.amount,
         ctx.accounts.strategy.recorded_quote_balance,

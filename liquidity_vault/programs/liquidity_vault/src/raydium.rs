@@ -12,7 +12,7 @@ pub const MAX_SQRT: u128 = 79_226_673_521_066_979_257_578_248_091;
 pub fn discriminator(name: &str) -> [u8; 8] {
     hash(name.as_bytes()).to_bytes()[..8].try_into().unwrap()
 }
-fn key(data: &[u8], offset: usize) -> Result<Pubkey> {
+pub(crate) fn key(data: &[u8], offset: usize) -> Result<Pubkey> {
     let bytes: [u8; 32] = data
         .get(offset..offset + 32)
         .and_then(|v| v.try_into().ok())
@@ -42,6 +42,14 @@ pub struct PoolView {
     pub tick: i32,
 }
 pub fn pool(info: &AccountInfo) -> Result<PoolView> {
+    let view = pool_state(info)?;
+    require!(
+        info.try_borrow_data()?[389] & 16 == 0,
+        VaultError::InvalidRaydiumAccount
+    );
+    Ok(view)
+}
+pub fn pool_state(info: &AccountInfo) -> Result<PoolView> {
     check_header(info, "account:PoolState", 1544)?;
     let d = info.try_borrow_data()?;
     let view = PoolView {
@@ -58,7 +66,7 @@ pub fn pool(info: &AccountInfo) -> Result<PoolView> {
         tick: i32::from_le_bytes(d[269..273].try_into().unwrap()),
     };
     require!(
-        view.mint0 < view.mint1 && view.spacing > 0 && d[389] & 16 == 0,
+        view.mint0 < view.mint1 && view.spacing > 0,
         VaultError::InvalidRaydiumAccount
     );
     let expected = Pubkey::find_program_address(

@@ -5,6 +5,8 @@ mod math;
 mod raydium;
 mod strategy;
 pub use strategy::*;
+mod liquidity;
+pub use liquidity::*;
 
 declare_id!("7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH");
 
@@ -154,6 +156,36 @@ pub mod liquidity_vault {
 
     pub fn end_strategy(ctx: Context<ManageStrategy>) -> Result<()> {
         strategy::end(ctx)
+    }
+
+    pub fn open_liquidity_position(
+        ctx: Context<OpenLiquidityPosition>,
+        lower: i32,
+        upper: i32,
+    ) -> Result<()> {
+        liquidity::open(ctx, lower, upper)
+    }
+    pub fn increase_liquidity(
+        ctx: Context<ManageLiquidity>,
+        amount: u128,
+        max_a: u64,
+        max_b: u64,
+    ) -> Result<()> {
+        liquidity::increase(ctx, amount, max_a, max_b)
+    }
+    pub fn collect_fees(ctx: Context<ManageLiquidity>, min_a: u64, min_b: u64) -> Result<()> {
+        liquidity::collect(ctx, min_a, min_b)
+    }
+    pub fn decrease_liquidity(
+        ctx: Context<ManageLiquidity>,
+        amount: u128,
+        min_a: u64,
+        min_b: u64,
+    ) -> Result<()> {
+        liquidity::decrease(ctx, amount, min_a, min_b)
+    }
+    pub fn close_liquidity_position(ctx: Context<CloseLiquidityPosition>) -> Result<()> {
+        liquidity::close(ctx)
     }
 }
 
@@ -359,7 +391,7 @@ pub struct VaultConfig {
     pub bump: u8,
     pub share_mint_bump: u8,
     pub token_vault_bump: u8,
-    /// Low seven bits: schema version 1. High bit: strategy lock (0x81 while active).
+    /// Low six bits: schema 1; 0x80 strategy lock; 0x40 open CLMM position lock.
     pub version: u8,
 }
 
@@ -417,4 +449,16 @@ pub enum VaultError {
     InvalidSwapDelta,
     #[msg("Quote assets or recorded quote exposure remain unsettled")]
     UnsettledStrategy,
+    #[msg("A Vault-owned CLMM position is still open")]
+    PositionStillOpen,
+    #[msg("Invalid liquidity position, NFT, authority or lifecycle state")]
+    InvalidLiquidityPosition,
+    #[msg("Invalid position tick range")]
+    InvalidPositionRange,
+    #[msg("Liquidity amount or token limits are invalid")]
+    InvalidLiquidityAmount,
+    #[msg("Rewards are not supported by this spot/liquidity strategy")]
+    UnsupportedRewards,
+    #[msg("Position liquidity, fees or rewards remain unsettled")]
+    UnsettledPosition,
 }

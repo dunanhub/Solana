@@ -1,4 +1,4 @@
-# Liquidity Vault — Week 12: Vault Strategy & Raydium CPI
+# Liquidity Vault — Week 13: Vault-owned CLMM Liquidity
 
 **Владелец проекта: Бекзат Убниев.**
 
@@ -8,13 +8,16 @@
 Week 11 добавляет отдельный Devnet-сценарий Raydium CLMM: свои токены, пул и
 позицию, принадлежащую кошельку. Anchor-программа Vault в Week 11 не изменяется.
 Week 12 добавляет admin-only стратегию с настоящим CPI SwapV2 и обратным обменом.
+Week 13 добавляет новую позицию с NFT под контролем Vault, LP CPI и сбор комиссий.
 **Статус Week 12: DONE** — локальные тесты пройдены; Devnet upgrade, оба настоящих
 CPI swap, безопасный end и последующие deposit/withdraw подтверждены finalized.
+
+**Статус Week 13: DONE** — полный Devnet LP-цикл, положительный сбор fees и безопасный выход подтверждены finalized.
 
 ## Стек и сеть
 
 - Rust, Anchor CLI / `anchor-lang` / `anchor-spl` **0.31.1**.
-- Классическая программа SPL Token (`Tokenkeg…`), без Token-2022.
+- Классическая программа SPL Token (`Tokenkeg…`) для A/B/shares; Token-2022 для Position NFT.
 - TypeScript 5.7.3, `@coral-xyz/anchor` 0.31.1, `@solana/web3.js` 1.98.4.
 - Node.js 20.19.0, Yarn 1.22.22; версии зависимостей закреплены lock-файлами.
 - Целевая публичная сеть: **Devnet**. Автоматические тесты: **localnet**.
@@ -29,7 +32,8 @@ CPI swap, безопасный end и последующие deposit/withdraw п
 в TypeScript. Websocket-клиент также закреплён для воспроизводимости.
 Features `token_2022` и `token_2022_extensions` у `anchor-spl` требуются макросам создания mint при компиляции;
 runtime-типы `Account<Mint>`, `Account<TokenAccount>` и `Program<Token>`
-по-прежнему допускают только классический SPL Token.
+по-прежнему допускают только классический SPL Token для A/B/shares.
+Новый модуль liquidity отдельно проверяет Token-2022 NFT через token interface.
 
 **Program ID:** `7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH`.
 Это новый ключ данного проекта; один адрес указан для localnet и Devnet.
@@ -44,12 +48,15 @@ liquidity_vault/
 ├── tsconfig.json
 ├── programs/liquidity_vault/
 │   ├── Cargo.toml
-│   └── src/{lib.rs,math.rs,strategy.rs,raydium.rs}
+│   └── src/{lib.rs,math.rs,strategy.rs,raydium.rs,liquidity.rs}
 ├── scripts/{prepare-local.sh,devnet-deposit.ts,devnet-withdraw.ts}
 ├── scripts/raydium/{config.ts,runtime.ts,checks.ts,cli.ts,policy.test.ts,devnet-proof.json}
 ├── scripts/strategy/{client.ts,journal.ts,devnet.ts,verify-upgrade.ts,prepare-fixtures.ts,policy.test.ts}
 ├── scripts/strategy/{devnet-status.json,upgrade-proof.json,devnet-proof.json}
-├── tests/{liquidity_vault.ts,deposit.ts,withdraw.ts,strategy.ts}
+├── scripts/liquidity/{client.ts,journal.ts,devnet.ts,verify.ts,policy.test.ts}
+├── scripts/liquidity/{devnet-status.json,upgrade-proof.json,devnet-proof.json,asset-report.json}
+├── tests/{liquidity_vault.ts,deposit.ts,withdraw.ts,strategy.ts,liquidity.ts}
+├── tests/fixtures/liquidity.ts
 └── README.md
 ```
 
@@ -67,11 +74,13 @@ liquidity_vault/
 | `Token Vault` | `[b"token-vault", vault]` | SPL Token; хранилище базового актива |
 | `UserPosition` | `[b"position", vault, user]` | Liquidity Vault; позиция пользователя в конкретном Vault |
 | `Strategy` | `[b"strategy", vault]` | Liquidity Vault; неизменяемые привязки пула и состояние стратегии |
+| `LiquidityPosition` | `[b"liquidity", strategy]` | Liquidity Vault; привязки CLMM-позиции и счётчики её цикла |
 
 `VaultConfig` содержит `administrator`, `asset_mint`, `share_mint`, `token_vault`,
 три bump и `version`. Размер с дискриминатором Anchor: **140 байт**.
 Без активной стратегии `version = 1`; в Week 12 старший бит служит блокировкой,
-поэтому во время стратегии значение равно `0x81` (129). Подробности ниже.
+поэтому во время стратегии без позиции значение равно `0x81` (129).
+Week 13 добавляет флаг открытой позиции: `0xc1` (193); schema mask — `0x3f`.
 
 `UserPosition` содержит `vault`, `user`, `shares = 0` и bump.
 Размер с дискриминатором: **81 байт**. В Week 9 `shares` увеличивается на число
@@ -182,7 +191,7 @@ Donation в работающий Vault учитывается в цене shares
 
 ### Ограничения учёта
 
-- Только классический SPL Token: Token-2022 и transfer fees не поддерживаются.
+- Для deposit/withdraw только классический SPL Token: Token-2022 assets и transfer fees не поддерживаются.
 - Источник принадлежит подписанту и является его ATA. Делегированные депозиты
   не поддерживаются, поэтому allowance не используется; чужой ATA отклоняется
   даже при достаточном разрешении delegate.
@@ -281,6 +290,10 @@ Freeze authority базового mint может остановить пере�
 
 ## Week 12 — Vault Strategy & Raydium CPI
 
+Этот раздел описывает исходный Week 12 и его исторические доказательства.
+В Week 13 добавлены LP-позиция и дополнительный lock bit; актуальные результаты
+и ограничения приведены в разделе Week 13 ниже.
+
 ### Архитектура и совместимость
 
 `Strategy` — отдельный PDA `[b"strategy", vault]`, **314 байт** с дискриминатором.
@@ -355,8 +368,8 @@ sqrt price limit ±1%. Доказательством выполнения сл�
 
 ### Завершение, donations и границы стратегии
 
-Это spot-стратегия: в коде нет открытия LP-позиций, займа, открытых ордеров или
-других обязательств. `recorded_quote_balance` — последний наблюдённый остаток B,
+В исходном Week 12 это spot-стратегия без открытия LP-позиций, займа и открытых
+ордеров. `recorded_quote_balance` — последний наблюдённый остаток B,
 а не рыночная оценка и не фиктивный счётчик долга. End проверяет его вместе с
 реальным ATA. Отдельный Rust-тест покрывает запрет end при recorded B > 0 и
 actual B = 0; такое состояние нельзя создать доступными инструкциями стратегии.
@@ -1071,11 +1084,259 @@ donation и округление, slippage, ATA/mint/PDA/подписи, нед�
 peer dependency `fastestsmallesttextencoderdecoder` в транзитивных SPL codecs.
 Ошибок компиляции или тестов в итоговом прогоне нет.
 
-## Week 13 — предварительный план
+## Week 13 — Vault-owned CLMM Liquidity
 
-Devnet-доказательство Week 12 завершено. Далее: модель полного NAV при нескольких
-активах, владение Position NFT через Vault,
-проверяемые CPI открытия/увеличения/уменьшения LP-позиции, отдельный учёт
-обязательств и критериев безопасного выхода, тесты округления/убытка/dust,
-пользовательский интерфейс состояния блокировки и итоговая демонстрация.
-Это план, не реализованные возможности; NFT Week 11 остаётся у кошелька.
+Новая CLMM-позиция принадлежит Vault PDA. Все операции управления требуют
+подписи администратора, а подпись Vault для Raydium CPI программа создаёт через
+`invoke_signed` с прежними seeds Vault. A/B остаются обычными SPL-токенами;
+отдельный Position NFT использует Token-2022, без metadata.
+**Week 11:** NFT ручной позиции принадлежит личному кошельку и не переносится.
+**Week 13:** новый NFT находится в каноническом ATA владельца Vault PDA;
+инструкции вывода NFT или изменения получателя нет.
+
+### Совместимость и состояние
+
+Прежние seeds, Program ID, layout VaultConfig (140), UserPosition (81) и Strategy
+(314 байт с discriminator) сохранены. Данные позиции хранятся в связанном PDA
+`["liquidity", strategy]`: `LiquidityPosition`, 226 байт. Он содержит адреса
+позиции/NFT/ATA, ticks, liquidity, вложенные и возвращённые A/B, собранные комиссии,
+возвращённую SOL rent, номер цикла и флаг open. После закрытия запись сохраняется;
+следующий цикл требует нового NFT и сбрасывает счётчики цикла.
+
+В существующем `VaultConfig.version` младшие 6 бит сохраняют schema version 1,
+`0x80` означает активную стратегию, `0x40` — открытую позицию. Поэтому старый
+`end_strategy` не может обойти проверку, просто не передав новый PDA.
+
+`inactive (0x01) → active (0x81) → position_open (0xc1) → liquidity_added →
+fees_collected → liquidity_removed → position_closed (0x81) → converted_to_A →
+inactive (0x01)`.
+
+Deposit/withdraw заблокированы во всей активной стратегии, включая открытую
+позицию с нулевой liquidity. End запрещён до фактического закрытия позиции и
+нулевого B. Swaps Week 12 сохранены. После безопасного end shares снова
+рассчитываются по фактическим A и share supply, с прежним округлением вниз.
+
+### Инструкции и CPI
+
+| Инструкция Vault | Действие Raydium / ограничения |
+| --- | --- |
+| `open_liquidity_position(lower, upper)` | `open_position_with_token22_nft`, нулевая начальная liquidity; admin оплачивает rent и подписывает новый mint; NFT owner — Vault |
+| `increase_liquidity(liquidity, max_a, max_b)` | `increase_liquidity_v2`; списание только с Vault A/B, ненулевая liquidity, ограниченные maxima |
+| `collect_fees(min_a, min_b)` | `decrease_liquidity_v2(0)`; liquidity не меняется, реальные дельты Vault учитываются как комиссии |
+| `decrease_liquidity(liquidity, min_a, min_b)` | Сначала атомарный collect с liquidity=0, затем частичное/полное уменьшение; principal учитывается отдельно от fees |
+| `close_liquidity_position()` | `close_position`; liquidity/fees/rewards = 0, NFT сжигается, mint/ATA/personal position закрываются, rent возвращается Vault |
+
+Проверяются фиксированный executable CLMM Devnet, сохранённый pool, mint pair,
+pool vaults, PDA позиции, канонический NFT ATA, owner/amount/supply NFT,
+отсутствие delegate/close authority, ticks, tick array PDA/owner/pool и bitmap.
+После CPI проверяются реальные balances и personal position. Ошибка возвращает
+всю транзакцию в исходное состояние, включая уже выполненный collect.
+
+Диапазон выбирается от **текущего** tick после подготовки B: центр округляется
+вниз до tick spacing, затем ±10 spacing. Liquidity и требуемые amounts вычисляются
+по текущему `sqrtPriceX64`; deposit округляется вверх, withdrawal вниз. Maxima
+увеличены на 1%, minima уменьшены на 1%; максимумы дополнительно ограничены
+имеющимися балансами Vault. Это демонстрационный диапазон, не оптимизатор дохода.
+
+Использованы официальные исходники
+[open Token-2022](https://github.com/raydium-io/raydium-clmm/blob/master/programs/amm/src/instructions/open_position_with_token22_nft.rs),
+[increase V2](https://github.com/raydium-io/raydium-clmm/blob/master/programs/amm/src/instructions/increase_liquidity_v2.rs),
+[decrease V2](https://github.com/raydium-io/raydium-clmm/blob/master/programs/amm/src/instructions/decrease_liquidity_v2.rs),
+[close](https://github.com/raydium-io/raydium-clmm/blob/master/programs/amm/src/instructions/close_position.rs)
+и [официальный IDL](https://github.com/raydium-io/raydium-idl/blob/master/raydium_clmm/raydium_clmm.json).
+SDK закреплён на `0.2.74-alpha`. Совместимость проверяется с фактическим ELF Devnet,
+загруженным в локальный validator, и затем реальными Devnet-транзакциями.
+Legacy protocol position передаётся для ABI; SDK использует little-endian ticks
+для его PDA, а tick arrays используют big-endian start index.
+
+### Учёт активов и ограничения NAV
+
+[`scripts/liquidity/asset-report.json`](scripts/liquidity/asset-report.json)
+разделяет cash A/B, principal внутри LP, accrued fees, collected fees и
+principal P/L относительно удержания внесённых A/B при текущей цене. Rewards не
+поддерживаются: операции допускают только pool без инициализированных reward mint,
+а закрытие отдельно проверяет нулевые owed rewards. Если reward будет включён
+внешним управляющим pool, потребуются расширение стратегии и отдельная проверка
+безопасного выхода; текущая программа не игнорирует обязательства.
+
+Аналитическая цена — `P = sqrtPriceX64² / 2^128` (raw B за raw A), у обоих
+mint 6 decimals. `NAV_A = cash_A + principal_A + accrued_fee_A +
+floor((cash_B + principal_B + accrued_fee_B) / P)`.
+Это **манипулируемая spot-оценка, не безопасный production NAV**, не oracle/TWAP
+и не цена для выпуска shares. Округления в отчёте — integer floor; dust может
+менять итог на минимальные единицы. Полученные fees уже находятся в cash и
+повторно не прибавляются. Principal P/L может быть отрицательным даже при
+положительных fees; он не включает swap fees и расходы SOL. Отдельно сохраняется
+фактическая разница A между началом и end до проверочного deposit/withdraw.
+Возврат SOL rent не считается доходом в Token A.
+
+### Воспроизведение и восстановление
+
+```bash
+yarn typecheck
+yarn test:raydium
+yarn test:strategy-policy
+yarn test:liquidity-policy
+cargo fmt --check
+cargo test
+anchor build
+anchor test --skip-build
+yarn liquidity check
+# Только после upgrade и проверки опубликованного бинарника:
+yarn liquidity verify-upgrade <UPGRADE_SIGNATURE>
+export ANCHOR_WALLET="$HOME/.config/solana/jezqwx/id.json"
+yarn liquidity run
+yarn liquidity verify
+```
+
+Runner работает только с проверенным Devnet genesis, указанными program/pool/mints
+и кошельком. Единственный внешний swap ограничен 100 000 минимальных A (0,1 A),
+идёт отдельной прямой инструкцией Raydium из личных ATA, не из Vault.
+Минимум collect = 1 единица A: нулевой сбор не считается успехом.
+
+NFT keypair и журнал находятся **вне репозитория**:
+`~/.config/solana/liquidity_vault/week13-liquidity/`. Сохраняются до отправки;
+межпроцессный lock предотвращает одновременный запуск. Preflight включён,
+автоповтор отправки отключён. При timeout runner проверяет записанную signature,
+не создаёт новый NFT и не повторяет уже финализированный шаг.
+`yarn liquidity recover-expired <STEP>` разрешает явную замену только после
+истечения block height, отсутствия signature/transaction, недействительности
+blockhash и проверки неизменности Vault/NFT/position/balances. Старый receipt
+архивируется; затем `run` продолжает цикл. Наблюдаемая failed-транзакция требует
+отдельного разбора. `verify` ничего не отправляет.
+
+В публичных proof JSON сохраняются finalized signatures, Explorer links,
+балансы по этапам, события с десятичными amounts, CPI stack height/authority,
+проверка получателей A/B, бинарный SHA-256 и контроль неизменности старого Vault
+и ручной позиции Week 11. Исторические proof Week 11–12 сохраняются.
+
+Дальнейшее развитие: oracle/TWAP и независимая оценка ликвидационной стоимости,
+поддержка rewards и аварийного выхода, несколько позиций, автоматизированное
+управление диапазоном, независимый аудит. Текущая программа остаётся upgradeable
+и доверяет администратору; демонстрация на Devnet не является аудитом.
+
+### Локальные проверки Week 13
+
+| Проверка | Результат |
+| --- | --- |
+| `cargo fmt --check` | PASS |
+| `anchor build` | PASS |
+| `cargo test` | **29 passed**, включая прежние 25 |
+| `yarn typecheck` | PASS |
+| Полный `anchor test --skip-build` | **191 passing**, включая прежние 146 |
+| Raydium policy | **19 passing** |
+| Strategy policy | **10 passing** |
+| Liquidity policy | **13 passing** |
+| Devnet proof / повторный `run` / read-only `check` | PASS; 13 finalized receipts, повторных отправок нет |
+| `git diff --check`, новые файлы, secrets/scope review | PASS; изменения только в `liquidity_vault/` |
+
+Новые интеграционные проверки исполняют настоящий CLMM ELF: проверяют NFT owner,
+fees > 0, частичный и полный withdrawal, закрытие всех трёх аккаунтов,
+разблокировку deposit/withdraw, подмены аккаунтов/authority/program/ticks,
+неисполнимый slippage и полный откат в фактически отправленной ошибочной локальной
+транзакции. Policy-тесты проверяют сохранение подписи до отправки и отсутствие
+повторной отправки, включая NFT co-signer, потерянный RPC-ответ и ошибку записи.
+
+При реализации исправлены endian protocol-position PDA, неверный адрес в тесте
+подмены NFT recipient и shell glob: после появления `tests/fixtures/` незаключённый
+в кавычки `tests/**/*.ts` давал ложный прогон с нулём тестов. Теперь glob передаётся
+Mocha в кавычках, полный прогон включает все 191 тест. Сборка сохраняет прежнее
+предупреждение макроса Anchor об устаревшем `AccountInfo::realloc`.
+
+### Реальные Devnet результаты Week 13 — DONE
+
+Полный цикл выполнен 25 октября 2026 года. Все 13 транзакций сценария и upgrade
+подтверждены **finalized**. Источник чисел — реальные RPC-снимки и подтверждённые
+транзакции, не симуляция. Публичные доказательства:
+[upgrade](scripts/liquidity/upgrade-proof.json),
+[цикл/CPI/signatures](scripts/liquidity/devnet-proof.json),
+[аналитический отчёт](scripts/liquidity/asset-report.json).
+
+| Объект | Адрес / значение |
+| --- | --- |
+| Vault | [`7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG`](https://explorer.solana.com/address/7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG?cluster=devnet) |
+| Strategy | [`CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU`](https://explorer.solana.com/address/CxErYVrwT5pXXYeXfi31N9i2MG9E5VmjbRCRCEaxqBuU?cluster=devnet) |
+| LiquidityPosition PDA | [`AE8bAgsZiwdWuwXeqxowmDiNwkA9qLcuE9g8B1S85QPa`](https://explorer.solana.com/address/AE8bAgsZiwdWuwXeqxowmDiNwkA9qLcuE9g8B1S85QPa?cluster=devnet) |
+| Raydium personal position | [`Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs`](https://explorer.solana.com/address/Gg111QYiZGrDCEYyY6WgTFVSXbwFbgvTXGWSPciXrzbs?cluster=devnet) |
+| Новый NFT mint | [`FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb`](https://explorer.solana.com/address/FV1UTTVeRYxwHE576GVHVEaESkhddiujZyGmdGbXyVHb?cluster=devnet) |
+| NFT owner во время жизни позиции | [`7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG`](https://explorer.solana.com/address/7f25QLNCZEKp95L94eLgJVAq5sWvejSJAWYd6MwvYaFG?cluster=devnet) |
+| Диапазон ticks | -660 … 540; выбран при текущем tick -27 |
+| Liquidity после внесения | 11241380 |
+| Внесено principal | 314355 A / 350000 B |
+| Возвращено principal | 317562 A / 346802 B |
+| Начислено / реально собрано fees | 6 / 6 A; 0 B |
+| SOL rent возвращена Vault | 5267960 lamports (не включена в A NAV) |
+
+Все A/B в таблицах — **минимальные единицы**, 1 токен = 1 000 000 единиц.
+Внешний swap: **100000 A → 99457 B**, один раз из личных ATA.
+Tick изменился -27 → -33, оставаясь внутри диапазона.
+Глобальный fee growth A увеличился с 52662149628451 до
+63742340658514. До collect поле personal `owedA` было
+0: Raydium обновляет его лениво; расчёт
+по on-chain global/outside/checkpoint давал 6.
+Collect реально увеличил Vault A на **6**, после него accrued/owed = 0.
+
+Частичное уменьшение: liquidity 11241380 → 5620690,
+возврат 158781 A / 173401 B. Затем liquidity = 0,
+суммарный возврат principal 317562 A / 346802 B.
+После close RPC возвращает null для NFT mint, NFT ATA и personal position;
+record.open = false. У закрытого NFT **нет текущего owner**: указанный Vault
+являлся владельцем токена во время жизни позиции, затем NFT сожжён.
+
+Обратный swap: **445082 B → 444816 A**. После end Vault содержит
+997979 A / 0 B, share supply 1000000; active=false,
+version=1. Фактический результат стратегии до проверочного deposit/withdraw:
+**-1971 A** относительно исходных 999950. Положительные fees
+не покрыли издержки swap и округления; прибыль всего цикла не заявляется.
+
+После end внесено 1000 A, выпущено
+1002 shares; затем сожжено
+1000 shares и выведено 997 A.
+Итог: **997982 A / 0 B**, supply 1000002, исторически
+выпущенные shares в UserPosition 1002002. История при withdrawal
+не уменьшается. Старый Vault и аккаунты ручной позиции Week 11 сохранили
+контрольные хеши owner/data.
+
+| Этап | Cash A | Cash B | LP liquidity | LP principal A / B | Accrued fees A / B | Аналитический spot NAV в A |
+| --- | ---: | ---: | ---: | --- | --- | ---: |
+| До стратегии | 999950 | 0 | 0 | 0 / 0 | 0 / 0 | 999950 |
+| Start | 999950 | 0 | 0 | 0 / 0 | 0 / 0 | 999950 |
+| Подготовка B | 549950 | 448280 | 0 | 0 / 0 | 0 / 0 | 999420 |
+| Открытие | 549950 | 448280 | 0 | 0 / 0 | 0 / 0 | 999420 |
+| Внесение LP | 235595 | 98280 | 11241380 | 314354 / 349999 | 0 / 0 | 999418 |
+| Внешний swap | 235595 | 98280 | 11241380 | 317562 / 346802 | 6 / 0 | 999681 |
+| Сбор fees | 235601 | 98280 | 11241380 | 317562 / 346802 | 0 / 0 | 999681 |
+| Частичное уменьшение | 394382 | 271681 | 5620690 | 158781 / 173401 | 0 / 0 | 999681 |
+| Полное уменьшение | 553163 | 445082 | 0 | 0 / 0 | 0 / 0 | 999681 |
+| Закрытие | 553163 | 445082 | 0 | 0 / 0 | 0 / 0 | 999681 |
+| B → A | 997979 | 0 | 0 | 0 / 0 | 0 / 0 | 997979 |
+| End | 997979 | 0 | 0 | 0 / 0 | 0 / 0 | 997979 |
+| Deposit после end | 998979 | 0 | 0 | 0 / 0 | 0 / 0 | 998979 |
+| Withdraw после end | 997982 | 0 | 0 | 0 / 0 | 0 / 0 | 997982 |
+
+Все signatures и Explorer links (Devnet):
+
+| Шаг | Finalized signature |
+| --- | --- |
+| Upgrade | [53dJQAEZ75XLxts5zY7mQPJ633PQgHYHJZT87DkUHa19J9sbg4kEiT7TYWxLpg95PPt9Vbz2pY5JP4sFQKpXh9sU](https://explorer.solana.com/tx/53dJQAEZ75XLxts5zY7mQPJ633PQgHYHJZT87DkUHa19J9sbg4kEiT7TYWxLpg95PPt9Vbz2pY5JP4sFQKpXh9sU?cluster=devnet) |
+| Start | [RVALmiz2Vnoev3xen8EvGDciNtjLs9Y36CfGD8T7rbXzotTm2ZuupQaP1KHJXyaNPNZRbXzyW31A4tkXUBywAfv](https://explorer.solana.com/tx/RVALmiz2Vnoev3xen8EvGDciNtjLs9Y36CfGD8T7rbXzotTm2ZuupQaP1KHJXyaNPNZRbXzyW31A4tkXUBywAfv?cluster=devnet) |
+| Подготовка B | [3WLmiTy2yS17CCRq5Q1sqjwkPUYUEWHV9QcULbtAvyjR82qJLwf7ovqjc6iLdbBEf5oDhzokP95QdepD8hHi6MV7](https://explorer.solana.com/tx/3WLmiTy2yS17CCRq5Q1sqjwkPUYUEWHV9QcULbtAvyjR82qJLwf7ovqjc6iLdbBEf5oDhzokP95QdepD8hHi6MV7?cluster=devnet) |
+| Открытие | [27aGJQmETziSEUY78YYQHBxtg83nqe7pr6kMxrRd3kYjh1GgLn8NXWSdrgWERSD5FKkyQBMA8exrX8vMfsXganXM](https://explorer.solana.com/tx/27aGJQmETziSEUY78YYQHBxtg83nqe7pr6kMxrRd3kYjh1GgLn8NXWSdrgWERSD5FKkyQBMA8exrX8vMfsXganXM?cluster=devnet) |
+| Внесение LP | [s5DLesejbHXLNGYsA9mZGfmp48cHVB21L3NF3LpExx6NScZPjVM4fkzgb1BD88CtpZGvH84YWuw88Mpbw6E95kF](https://explorer.solana.com/tx/s5DLesejbHXLNGYsA9mZGfmp48cHVB21L3NF3LpExx6NScZPjVM4fkzgb1BD88CtpZGvH84YWuw88Mpbw6E95kF?cluster=devnet) |
+| Внешний swap | [3rcHDe2zhLWkB2wMbdre7s32XhQV6amJfueLpmJHi9xGbGRLedVkLzWQdKhmjUfC4Wcb7NpDzHAXAcYr1bsf5Vdh](https://explorer.solana.com/tx/3rcHDe2zhLWkB2wMbdre7s32XhQV6amJfueLpmJHi9xGbGRLedVkLzWQdKhmjUfC4Wcb7NpDzHAXAcYr1bsf5Vdh?cluster=devnet) |
+| Сбор fees | [5vhWEMgKcGFbNYhkZGZ4gvWhaCoHbKUhGEFNm11xLki69T7tM8wmZMDhMQwH3TCzAM9zewgq1H8ApFBNyLt4V1NH](https://explorer.solana.com/tx/5vhWEMgKcGFbNYhkZGZ4gvWhaCoHbKUhGEFNm11xLki69T7tM8wmZMDhMQwH3TCzAM9zewgq1H8ApFBNyLt4V1NH?cluster=devnet) |
+| Частичное уменьшение | [2vPt8QYcPuQxetUZAa9CA3oC28Ya8De3CjQEZN27Xt5j7QpSWf3sMN22aC9814tsXJc9HucMPYC6PsY1YnRKYa3z](https://explorer.solana.com/tx/2vPt8QYcPuQxetUZAa9CA3oC28Ya8De3CjQEZN27Xt5j7QpSWf3sMN22aC9814tsXJc9HucMPYC6PsY1YnRKYa3z?cluster=devnet) |
+| Полное уменьшение | [2GYBPNw3479WaCWwFZuuGsiP11CLzxFv78XYgnqUVTGgwXh4kWB6xkzpcNbiCq6FaW6Z9pygwkDR91nH2Hueu6yz](https://explorer.solana.com/tx/2GYBPNw3479WaCWwFZuuGsiP11CLzxFv78XYgnqUVTGgwXh4kWB6xkzpcNbiCq6FaW6Z9pygwkDR91nH2Hueu6yz?cluster=devnet) |
+| Закрытие | [4fedETSazi2cVYF6uSyctEJCDzhcmRmFQKcaAmGsJNQjtEdu8ZuAXodG2dfWoSq24dTDQHKb7gD9Hn6zQEXyUDzp](https://explorer.solana.com/tx/4fedETSazi2cVYF6uSyctEJCDzhcmRmFQKcaAmGsJNQjtEdu8ZuAXodG2dfWoSq24dTDQHKb7gD9Hn6zQEXyUDzp?cluster=devnet) |
+| B → A | [4zAR379cgkNsBRGfEKizjXGac6JwvqdFmgZZzr5cSmJEvBgXby7DDsqbz2C4rQfqWNyPyT4znA6QgfaTmVxFjBN9](https://explorer.solana.com/tx/4zAR379cgkNsBRGfEKizjXGac6JwvqdFmgZZzr5cSmJEvBgXby7DDsqbz2C4rQfqWNyPyT4znA6QgfaTmVxFjBN9?cluster=devnet) |
+| End | [2zWt1TpxcvUsr9upruCStE5fdgst5xvHx6maUEHPywQq1JUR8Ya9q21Kw3FgbpnJ8e96BNzgwPf3EBPar7CVZm1u](https://explorer.solana.com/tx/2zWt1TpxcvUsr9upruCStE5fdgst5xvHx6maUEHPywQq1JUR8Ya9q21Kw3FgbpnJ8e96BNzgwPf3EBPar7CVZm1u?cluster=devnet) |
+| Deposit после end | [5JKBT7pFuJ1yH9LGBqWzRE69kEEPFikjpALYGmkkjSWpdz7SWibtWSs3xUasjF3XW4ssiRHiJeKHww9YcyzAk4W](https://explorer.solana.com/tx/5JKBT7pFuJ1yH9LGBqWzRE69kEEPFikjpALYGmkkjSWpdz7SWibtWSs3xUasjF3XW4ssiRHiJeKHww9YcyzAk4W?cluster=devnet) |
+| Withdraw после end | [35WxorM7aEWFjuzt15DK93eRsPNqYT6wMBJTF2FYqEaiCqABj2nJ2Av1Q67xnaMUykaU2gMJeVj4rUcdJoYFgdWB](https://explorer.solana.com/tx/35WxorM7aEWFjuzt15DK93eRsPNqYT6wMBJTF2FYqEaiCqABj2nJ2Av1Q67xnaMUykaU2gMJeVj4rUcdJoYFgdWB?cluster=devnet) |
+
+Опубликованный SBF: 571472 байт, SHA-256
+`f3890004ec02a10cfe4e4d05d476db3c9217ec6674d0b2a2ac660d3a164849de`, slot 514998370; буфер закрыт.
+
+Повторный `yarn liquidity run` прошёл без новых signatures и без изменения
+балансов/позиции; повторный `check` прочитал то же безопасное финальное состояние.
+Публичные JSON не содержат keypair/seed/private key. Commit, push и merge не выполнялись;
+HEAD остался `b11b413`, изменения ограничены `liquidity_vault/`.

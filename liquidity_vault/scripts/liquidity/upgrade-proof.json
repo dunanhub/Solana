@@ -1,0 +1,25 @@
+{
+  "cluster": "devnet",
+  "program": "7e5CTdFmiZ9wrW96MaiaFrfha1mguGEVEds5m7y2XmrH",
+  "programData": "J5UyTo8E3xLcmttCxXYRNyTo48P3ZZDqzD28j7jTEopF",
+  "authority": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+  "binaryBytes": 571472,
+  "binaryHash": "f3890004ec02a10cfe4e4d05d476db3c9217ec6674d0b2a2ac660d3a164849de",
+  "binaryMatches": true,
+  "slot": "514998370",
+  "balanceLamports": 5283205960,
+  "upgradePeakLamports": 3003915960,
+  "raydium": {
+    "program": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+    "programData": "Dfhg7W2iDF6Kmoefx4XNaSMd7MvpNeR7Dg8HkZ6rCTwW",
+    "slot": "513147960",
+    "sha256": "60255f5ce990ef6ac6847e2316400d2dc2cb83968cb885bf44d6dfac2531ad43",
+    "bytes": 2528752
+  },
+  "signature": "53dJQAEZ75XLxts5zY7mQPJ633PQgHYHJZT87DkUHa19J9sbg4kEiT7TYWxLpg95PPt9Vbz2pY5JP4sFQKpXh9sU",
+  "finalized": true,
+  "bufferClosed": true,
+  "buffer": "AjAYGJk7P9HqSnVhNX29NDm6gyrxgVZB1NgieZfkacmj",
+  "explorer": "https://explorer.solana.com/tx/53dJQAEZ75XLxts5zY7mQPJ633PQgHYHJZT87DkUHa19J9sbg4kEiT7TYWxLpg95PPt9Vbz2pY5JP4sFQKpXh9sU?cluster=devnet",
+  "verifiedAt": "2026-10-25T14:21:15.855Z"
+}
