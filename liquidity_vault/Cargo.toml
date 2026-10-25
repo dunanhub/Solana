@@ -3,6 +3,7 @@ members = ["programs/*"]
 resolver = "2"
 
 [profile.release]
+opt-level = "s"
 overflow-checks = true
 lto = "fat"
 codegen-units = 1
