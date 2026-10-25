@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "cluster": "devnet",
+  "program": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+  "wallet": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+  "mintA": "9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP",
+  "mintB": "FGWg89P3tk45pxLHCy8u1A564jPaVHCJjJnk923iKhyG",
+  "nftMint": "AKbjsHiFyGFLsWB2KRA9Lccbc8Wbzn7oVkT9yDoPajci",
+  "receipts": {
+    "mintA": {
+      "signature": "437tjWo296jmZkUizsJxwq5YuLA8gq4MU9NrMPaa7xKz2FUVG7uBbWvGrKhBFucJ4mwX3viMybsaURRFcLv7tyiZ",
+      "blockhash": "29jGJPKGbzEsa5oewV45FXnfLjBybsyvjtyqPcsMXZ6g",
+      "lastValidBlockHeight": 502176269,
+      "status": "finalized",
+      "slot": 514975366
+    },
+    "mintB": {
+      "signature": "2F12hbVVaASztLcHMp45VFoFQj5kttK47B2qnigYiQr3UJV4a8QRG1kp9W44fT6BV2pQ9cuRFQ3jqbAGow2rKF1J",
+      "blockhash": "FJnyw7GE5KwQfyVUefyi3bokSDfCNygcUjMfQZA8PTi7",
+      "lastValidBlockHeight": 502176283,
+      "status": "finalized",
+      "slot": 514975379
+    },
+    "fundA": {
+      "signature": "5JkaBsY2t7RQ1VKszM4q2asEbfNKeGay9wL1uYfygdihoMwtpUAcRRrnp1CNzFj9AXG9G6miMrVpZEq2ET4LNZ1n",
+      "blockhash": "HFctxaV8GWVXNpJ1DtJku6BH9PpP4QPaWooRZyEoWsDd",
+      "lastValidBlockHeight": 502176295,
+      "status": "finalized",
+      "slot": 514975391
+    },
+    "fundB": {
+      "signature": "4YpJA6WWeDNJtJTHCjdDCYxPXz2A5QCCV8ZzEj2KsX3YRkaHcVWX9AR6uUcKYjafFgEFCnaKSgPLd2nJS9GWRjMe",
+      "blockhash": "68k6zRDFYNcBWP2qy9Fafjd834k3LtVx5r5veWb53SCf",
+      "lastValidBlockHeight": 502176307,
+      "status": "finalized",
+      "slot": 514975403
+    },
+    "pool": {
+      "signature": "RYJpyZwiVW6icsUzE3e8WzC6gmo9QoP6vAU3KMF6gVymJP7nRXUrwUwdkxeVLcKYdmLjdjLG1mEmiYqcu6GyDmM",
+      "blockhash": "8dbtQoYYUg6CXA7z5knLvpQsPWWQK5d3iygCLZCqQDz7",
+      "lastValidBlockHeight": 502176319,
+      "status": "finalized",
+      "slot": 514975415
+    },
+    "position": {
+      "signature": "3jLFPtLQ7zBvgQzxLsa8rzb6h7EvpGBNxujmhu2wYseZSUYA9FbBMtQfiycSJtLiu5zzYNVj7Zi64UsCfszgCZFP",
+      "blockhash": "E53DoABpgt883uBKNXJ5q2AXvTS4NvgE2QpYfrE9owWG",
+      "lastValidBlockHeight": 502176332,
+      "status": "finalized",
+      "slot": 514975428
+    }
+  },
+  "positionBefore": {
+    "wallet0": "100000000",
+    "wallet1": "100000000",
+    "vault0": "0",
+    "vault1": "0"
+  },
+  "proof": {
+    "tokens": [
+      {
+        "name": "BEK Token A",
+        "mint": "9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP",
+        "ata": "F7GDs59j2VQvoTTQqfWSwUz8godGy9Kiac1jw6X57haP",
+        "decimals": 6,
+        "supply": "100000000",
+        "amount": "90000000",
+        "mintAuthority": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+        "freezeAuthority": null
+      },
+      {
+        "name": "BEK Token B",
+        "mint": "FGWg89P3tk45pxLHCy8u1A564jPaVHCJjJnk923iKhyG",
+        "ata": "6FFNixi21YM8ntUGjMcp18zAt9ikGzXLHtqiaz8pxfG5",
+        "decimals": 6,
+        "supply": "100000000",
+        "amount": "90000000",
+        "mintAuthority": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+        "freezeAuthority": null
+      }
+    ],
+    "addresses": {
+      "mintA": "9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP",
+      "mintB": "FGWg89P3tk45pxLHCy8u1A564jPaVHCJjJnk923iKhyG",
+      "nftMint": "AKbjsHiFyGFLsWB2KRA9Lccbc8Wbzn7oVkT9yDoPajci",
+      "token0": "9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP",
+      "token1": "FGWg89P3tk45pxLHCy8u1A564jPaVHCJjJnk923iKhyG",
+      "pool": "CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b",
+      "ataA": "F7GDs59j2VQvoTTQqfWSwUz8godGy9Kiac1jw6X57haP",
+      "ataB": "6FFNixi21YM8ntUGjMcp18zAt9ikGzXLHtqiaz8pxfG5",
+      "ata0": "F7GDs59j2VQvoTTQqfWSwUz8godGy9Kiac1jw6X57haP",
+      "ata1": "6FFNixi21YM8ntUGjMcp18zAt9ikGzXLHtqiaz8pxfG5",
+      "vault0": "93QwHEoPSXfP6me7xPZFGxaEVtCXuwvphuhLTq9N1zjz",
+      "vault1": "4aER6FgH241tiadd8RTzsjhoVsiDeAG8bsPiUL84q7hE",
+      "observation": "AeCZ63rM7LJQXk1AgMKpM8f3W7EjzDzQPNCG9ugmf4MG",
+      "bitmap": "3EgDBhBFfQVf1dpHYSwTrw9YvBz1ZrAVdCXV3pmKmCpp",
+      "position": "8Y3rCCZrTTSBaShqtNNPwJ8Xxw2EJcg46rCfG8LgDkj7",
+      "nftAta": "6ypFC13nnEyjTQPZwJQ52btusxyXgmxawsH6ApmD72Fc",
+      "tickArrayLower": "22KD4cDnaJLtaRN1UPHChhXWfJHh2iW87oMyhMxwbRb2",
+      "tickArrayUpper": "3ziuTf9f6KKGYxacMWCDqAM25pmYoykxaGoKMDYYApwm"
+    },
+    "liquidity": "338374998",
+    "sqrtPriceX64": "18446744073709551616",
+    "tickCurrent": 0,
+    "tickLower": -600,
+    "tickUpper": 600,
+    "amounts": {
+      "token0": "10000000",
+      "token1": "10000000",
+      "wallet0": "90000000",
+      "wallet1": "90000000",
+      "vault0": "10000000",
+      "vault1": "10000000"
+    },
+    "nft": {
+      "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "owner": "bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe",
+      "supply": "1",
+      "decimals": 0,
+      "mintAuthority": null
+    }
+  }
+}

@@ -1,10 +1,12 @@
-# Liquidity Vault — Week 10: Withdraw & Token CPI
+# Liquidity Vault — Week 11: Raydium CLMM Integration
 
 **Владелец проекта: Бекзат Убниев.**
 
 Учебный Solana-проект: основа хранилища SPL-токенов с отдельным mint долей и
 позициями пользователей. Week 8 создаёт аккаунты; Week 9 добавляет внесение
 активов и выпуск долей; Week 10 — вывод активов со сжиганием реальных shares.
+Week 11 добавляет отдельный Devnet-сценарий Raydium CLMM: свои токены, пул и
+позицию, принадлежащую кошельку. Anchor-программа Vault в Week 11 не изменяется.
 
 ## Стек и сеть
 
@@ -41,6 +43,7 @@ liquidity_vault/
 │   ├── Cargo.toml
 │   └── src/{lib.rs,math.rs}
 ├── scripts/{prepare-local.sh,devnet-deposit.ts,devnet-withdraw.ts}
+├── scripts/raydium/{config.ts,runtime.ts,checks.ts,cli.ts,policy.test.ts,devnet-proof.json}
 ├── tests/{liquidity_vault.ts,deposit.ts,withdraw.ts}
 └── README.md
 ```
@@ -267,6 +270,187 @@ Rust-тестами без изменения validator-аккаунтов ил�
 граница `u64::MAX` и промежуточное произведение в `u128` проверены также на validator.
 Freeze authority базового mint может остановить переводы; Token-2022, комиссии,
 стратегии, virtual shares и защита первого вкладчика от donation здесь не добавлены.
+
+## Week 11 — Raydium CLMM Integration
+
+В обычном constant-product пуле ликвидность распределена по всему диапазону
+цен. CLMM позволяет выбрать ограниченный диапазон: внутри него капитал участвует
+в обменах, а вне диапазона позиция становится односторонней и не получает комиссии
+за активную ликвидность. Здесь это учебная проверка инфраструктуры стратегии:
+активы Liquidity Vault не переводятся в Raydium, а Position NFT остаётся у кошелька.
+
+### Официальные инструменты и сеть
+
+- [Официальные адреса Raydium](https://github.com/raydium-io/raydium-docs-v1/blob/main/reference/program-addresses.mdx)
+  и [CLMM `lib.rs`](https://github.com/raydium-io/raydium-clmm/blob/master/programs/amm/src/lib.rs)
+  независимо подтверждают Devnet ID `DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH`.
+- Используется официальный `@raydium-io/raydium-sdk-v2` **0.2.74-alpha**,
+  `bn.js` **5.2.2**, `decimal.js` **10.6.0**, `@types/bn.js` **5.2.0**.
+  Зависимости закреплены в `package.json` и `yarn.lock`; web3.js остаётся 1.98.4.
+- Инструкции строятся через `ClmmInstrument` официального SDK, а аккаунты читаются
+  через RPC и декодируются официальными layouts. REST-индексация новых пулов и
+  наличие токенов в публичном token list не требуются. Основой служат официальные
+  [createPool](https://github.com/raydium-io/raydium-sdk-V2-demo/blob/master/src/clmm/createPool.ts)
+  и [createPosition](https://github.com/raydium-io/raydium-sdk-V2-demo/blob/master/src/clmm/createPosition.ts).
+- Endpoint фиксирован: `https://api.devnet.solana.com`; проверяется Devnet genesis,
+  executable CLMM и его системный loader. Mainnet-подстановка отклоняется.
+
+Подходящий **существующий** Devnet AmmConfig найден по PDA и прочитан on-chain:
+`CD4aJtX11cqTCAc83nxSPkkh5JW2yjD6uwHeovjqQ1qu`, index **0**, `tradeFeeRate = 2500`
+из 1 000 000 (**0,25%**), `tickSpacing = 60`. `protocolFeeRate = 120000`,
+`fundFeeRate = 40000` — доли внутри торговой комиссии. Другие прочитанные Devnet
+конфигурации: index 1 — 0,01% / spacing 1; index 2 — 0,05% / spacing 10.
+Конфигурации не создаются скриптом и не заимствуются из mainnet API.
+
+### Токены, цена и диапазон
+
+BEK Token A и BEK Token B — два новых mint классического SPL Token Program.
+У обоих **6 decimals**, единовременный выпуск — **100 токенов** (`100_000_000`
+минимальных единиц). Mint authority — рабочий кошелёк, freeze authority отсутствует.
+Имена BEK — подписи в документации и отчётах: обычный SPL Mint не хранит имя/символ,
+отдельная Metaplex metadata для этих учебных активов не создаётся.
+
+Mint keys и ключ NFT генерируются один раз и сохраняются вне репозитория. Порядок
+token0/token1 определяется сравнением 32 байт public key, а не буквами A/B или
+лексикографическим сравнением Base58-строк. При одинаковых decimals начальная цена
+**1 token1 за 1 token0**, `sqrtPriceX64 = 18446744073709551616 = 2^64`, tick = 0.
+Проверяются допустимые пределы sqrt price и строгое попадание цены внутрь диапазона.
+
+Диапазон позиции — **ticks −600…600**, обе границы кратны 60. SDK вычисляет цены
+границ и целочисленную ликвидность из целевого вклада **10 token0**. Суммы обоих
+активов отдельно пересчитываются из полученной liquidity с округлением вверх.
+`amount0Max/amount1Max` допускают **1% slippage** и также округляются вверх;
+перед отправкой проверяются балансы. Открытие позиции и внесение ликвидности
+выполняются одной атомарной `open_position_with_token22_nft`.
+
+Position NFT использует **Token-2022**, как в актуальном примере Raydium; базовые
+BEK-токены остаются классическими SPL. У NFT supply = 1, decimals = 0, mint
+authority отозвана. NFT в ATA рабочего кошелька подтверждает контроль над
+`PersonalPositionState`, где записаны pool, nft mint, ticks и liquidity.
+Проверяются также реальные PoolState, vaults, ObservationState, bitmap и обе
+TickArrayState с ликвидностью на границах. Это настоящая CLMM-позиция, а не
+обычный token account с произвольным балансом.
+
+В дальнейшем `increase_liquidity_v2` добавляет ликвидность с верхними лимитами
+расхода, а `decrease_liquidity_v2` уменьшает её с минимальными выходными суммами.
+Обе операции проверяют NFT и привязку позиции к пулу:
+[increase](https://github.com/raydium-io/raydium-clmm/blob/master/programs/amm/src/instructions/increase_liquidity_v2.rs),
+[decrease](https://github.com/raydium-io/raydium-clmm/blob/master/programs/amm/src/instructions/decrease_liquidity_v2.rs).
+В Week 11 дополнительное увеличение/уменьшение и передача NFT Vault PDA не выполняются.
+
+### Воспроизводимые команды и восстановление
+
+```bash
+export PATH="$HOME/.nvm/versions/node/v20.19.0/bin:$PATH"
+cd /mnt/d/MySelf/Projects/Solana/liquidity_vault
+export ANCHOR_WALLET="$HOME/.config/solana/jezqwx/id.json"
+yarn install --frozen-lockfile
+yarn typecheck
+yarn test:raydium
+yarn raydium inspect   # только сеть, программа, конфигурация, цена и расчёт
+yarn raydium tokens    # два mint и ATA
+yarn raydium mint      # единовременный выпуск 100 + 100 токенов
+yarn raydium pool      # собственный CLMM pool
+yarn raydium position  # Position NFT и начальная ликвидность
+yarn raydium verify    # только чтение и проверки, ключ кошелька не нужен
+yarn raydium verify --public-proof # проверка опубликованного снимка без внешнего журнала
+# yarn raydium all     # те же шаги последовательно; записанные операции не повторяются
+```
+
+Рабочий журнал: `~/.config/solana/liquidity_vault/week11-raydium/state.json`.
+Рядом лежат три keypair-файла; они находятся **вне Git**. Журнал содержит только
+публичные адреса, подписи, снимок балансов и результат проверки. Его нельзя удалять
+ради повторного запуска. Для нового окружения сохраните и восстановите внешний
+каталог, иначе `all` будет означать создание нового независимого учебного набора.
+
+Мутации защищены lock-файлом. Каждая signature сохраняется атомарно до единственной
+отправки с `skipPreflight: false`, `maxRetries: 0`. При потерянном ответе проверяется
+сохранённая signature; неопределённый или ошибочный результат останавливает сценарий.
+Повторный запуск сначала разрешает статусы записанных шагов и не повторяет mint,
+создание pool или вклад. RPC-чтения ограничены четырьмя попытками с backoff 2/4/8 s;
+ожидание Finalized — 30 проверок. `verify` не пишет журнал и не отправляет транзакций.
+Без внешнего журнала `verify` автоматически использует публичный
+[`devnet-proof.json`](scripts/raydium/devnet-proof.json). Этот файл не содержит
+ключей и не используется для разрешения новых отправок.
+
+### Реальные результаты Devnet Week 11
+
+Проверено **25 октября 2026 года**. Все шесть транзакций — **Finalized**, ошибок
+on-chain нет. У mint A/B supply по `100_000_000`, у позиции liquidity **338374998**;
+цена осталась 1:1. Точные границы цены: **0,941767358694…1,061833361253 token1/token0**.
+
+| Объект | Адрес в Devnet |
+| --- | --- |
+| Wallet / NFT owner / mint authority BEK | [`bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe`](https://explorer.solana.com/address/bnCwyNq3mqquCp3bQksZnrMk7t4wR8iw2NU2x21pjDe?cluster=devnet) |
+| BEK Token A = token0 | [`9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP`](https://explorer.solana.com/address/9fCGeyDFz86XXhUgT7c9zj4qYVBqrnc6B58Fcvv6zzhP?cluster=devnet) |
+| BEK Token B = token1 | [`FGWg89P3tk45pxLHCy8u1A564jPaVHCJjJnk923iKhyG`](https://explorer.solana.com/address/FGWg89P3tk45pxLHCy8u1A564jPaVHCJjJnk923iKhyG?cluster=devnet) |
+| Pool ID | [`CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b`](https://explorer.solana.com/address/CuATcxQ3yxU8MPtp7uiYkZdgYxyBZhNuPwf39XK81A2b?cluster=devnet) |
+| PersonalPositionState | [`8Y3rCCZrTTSBaShqtNNPwJ8Xxw2EJcg46rCfG8LgDkj7`](https://explorer.solana.com/address/8Y3rCCZrTTSBaShqtNNPwJ8Xxw2EJcg46rCfG8LgDkj7?cluster=devnet) |
+| Position NFT Mint | [`AKbjsHiFyGFLsWB2KRA9Lccbc8Wbzn7oVkT9yDoPajci`](https://explorer.solana.com/address/AKbjsHiFyGFLsWB2KRA9Lccbc8Wbzn7oVkT9yDoPajci?cluster=devnet) |
+| Position NFT ATA | `6ypFC13nnEyjTQPZwJQ52btusxyXgmxawsH6ApmD72Fc` |
+| Pool token0 vault | `93QwHEoPSXfP6me7xPZFGxaEVtCXuwvphuhLTq9N1zjz` |
+| Pool token1 vault | `4aER6FgH241tiadd8RTzsjhoVsiDeAG8bsPiUL84q7hE` |
+
+| Операция | Finalized slot | Explorer / signature |
+| --- | ---: | --- |
+| Создание mint A и ATA | 514975366 | [437tjWo296jmZkUizsJxwq5YuLA8gq4MU9NrMPaa7xKz2FUVG7uBbWvGrKhBFucJ4mwX3viMybsaURRFcLv7tyiZ](https://explorer.solana.com/tx/437tjWo296jmZkUizsJxwq5YuLA8gq4MU9NrMPaa7xKz2FUVG7uBbWvGrKhBFucJ4mwX3viMybsaURRFcLv7tyiZ?cluster=devnet) |
+| Создание mint B и ATA | 514975379 | [2F12hbVVaASztLcHMp45VFoFQj5kttK47B2qnigYiQr3UJV4a8QRG1kp9W44fT6BV2pQ9cuRFQ3jqbAGow2rKF1J](https://explorer.solana.com/tx/2F12hbVVaASztLcHMp45VFoFQj5kttK47B2qnigYiQr3UJV4a8QRG1kp9W44fT6BV2pQ9cuRFQ3jqbAGow2rKF1J?cluster=devnet) |
+| Выпуск 100 BEK A | 514975391 | [5JkaBsY2t7RQ1VKszM4q2asEbfNKeGay9wL1uYfygdihoMwtpUAcRRrnp1CNzFj9AXG9G6miMrVpZEq2ET4LNZ1n](https://explorer.solana.com/tx/5JkaBsY2t7RQ1VKszM4q2asEbfNKeGay9wL1uYfygdihoMwtpUAcRRrnp1CNzFj9AXG9G6miMrVpZEq2ET4LNZ1n?cluster=devnet) |
+| Выпуск 100 BEK B | 514975403 | [4YpJA6WWeDNJtJTHCjdDCYxPXz2A5QCCV8ZzEj2KsX3YRkaHcVWX9AR6uUcKYjafFgEFCnaKSgPLd2nJS9GWRjMe](https://explorer.solana.com/tx/4YpJA6WWeDNJtJTHCjdDCYxPXz2A5QCCV8ZzEj2KsX3YRkaHcVWX9AR6uUcKYjafFgEFCnaKSgPLd2nJS9GWRjMe?cluster=devnet) |
+| Создание CLMM pool | 514975415 | [RYJpyZwiVW6icsUzE3e8WzC6gmo9QoP6vAU3KMF6gVymJP7nRXUrwUwdkxeVLcKYdmLjdjLG1mEmiYqcu6GyDmM](https://explorer.solana.com/tx/RYJpyZwiVW6icsUzE3e8WzC6gmo9QoP6vAU3KMF6gVymJP7nRXUrwUwdkxeVLcKYdmLjdjLG1mEmiYqcu6GyDmM?cluster=devnet) |
+| Открытие позиции, NFT и вклад 10 + 10 | 514975428 | [3jLFPtLQ7zBvgQzxLsa8rzb6h7EvpGBNxujmhu2wYseZSUYA9FbBMtQfiycSJtLiu5zzYNVj7Zi64UsCfszgCZFP](https://explorer.solana.com/tx/3jLFPtLQ7zBvgQzxLsa8rzb6h7EvpGBNxujmhu2wYseZSUYA9FbBMtQfiycSJtLiu5zzYNVj7Zi64UsCfszgCZFP?cluster=devnet) |
+
+Отдельной транзакции добавления ликвидности не было: первоначальный вклад выполнен
+при открытии позиции. Перед вкладом в кошельке было по 100 токенов, в vaults — 0;
+после — по 90 в кошельке и по 10 в vaults. NFT принадлежит кошельку, не Vault PDA.
+Тестовый SOL: **1,6851694 → 1,52314352**, разница **0,16202588 SOL** на rent и комиссии.
+Дополнительный airdrop и upgrade программы Liquidity Vault не потребовались.
+
+### Проверки Week 11 и исправления
+
+| Проверка | Реальный результат |
+| --- | --- |
+| `cargo fmt --check` | PASS |
+| `anchor build` | PASS, программа Vault не изменена |
+| `cargo test` | **20 passed**, все прежние тесты сохранены |
+| `anchor test --skip-build` | **99 passing (2m)**, Yarn 140,34 s |
+| `yarn typecheck` | PASS |
+| `yarn test:raydium` | **19 passing**, отдельные offline-тесты |
+| `yarn raydium all` | PASS, 6 транзакций Finalized |
+| Повторный `all` | PASS, без новых транзакций и повторного вклада |
+| `verify --public-proof` без `ANCHOR_WALLET` | PASS, только RPC-чтения, без записи журнала |
+| `git diff --check` и проверки новых файлов | PASS |
+
+Новые offline-тесты проверяют подмены сети, program/config address, owner,
+discriminator, размеров аккаунтов, fee tier, spacing и tick range; границы sqrt
+price, расчёт лимитов, неверный публичный manifest и сохранение signature до
+отправки. Отдельно моделируются потерянный ответ и подтверждённая ошибка: повторная
+транзакция не создаётся. Это дополнение к реальной Devnet-проверке, не её замена.
+
+Повторный полный запуск и отдельный `verify` сохранили исходные шесть signatures,
+балансы, liquidity и SOL **1,52314352**. SHA-256 внешнего журнала до/после и
+публичного `devnet-proof.json` одинаков:
+`7a0e4d61bf4f5608075cb29908180f0b049637ccf759bcf4e88916750fa2a60c`.
+
+До отправок исправлены отсутствие TypeScript-типов `bn.js`, опечатка в строке
+системного BPF loader и первоначальное предположение об index 1 fee config.
+Проверки корректно остановили сценарий; затем были прочитаны реальные Devnet
+конфигурации и выбран index 0. Суммы токенов рассчитываются отдельно через
+`getAmountsForLiquidity` из liquidity и подтверждены фактическим вкладом 10 + 10.
+On-chain ошибок, отключения preflight и повторных отправок не было.
+
+Anchor.toml, Rust-код, Cargo-зависимости, PDA и Program ID Vault, старые тесты и
+Devnet-скрипты Week 9–10 сохранены без изменений. Новые ключи и рабочий журнал
+лежат вне репозитория; публичный proof содержит только проверяемые данные.
+`node_modules`, `target` и validator ledger не отслеживаются; временный ledger
+после остановки validator удалён. Commit, push и merge не выполнялись.
+
+Проверка рассчитана на изолированный учебный пул: ожидается цена 1:1, единственная
+позиция и сохранение выпущенных токенов между кошельком и vaults. Если кто-то
+впоследствии совершит swap, добавит ликвидность или владелец переместит NFT,
+строгая проверка исторического снимка может отклонить новое состояние. Devnet может
+сбрасываться, RPC ограничивает запросы, а SDK имеет статус alpha. Эти ограничения
+не маскируются как успешный результат.
 
 ## Ключи и подготовка WSL
 
@@ -626,9 +810,10 @@ peer dependency `fastestsmallesttextencoderdecoder` в транзитивных 
 
 ## Дальнейшие недели — только план
 
-- **Week 11:** интеграция стратегии ликвидности и учёт активов по методичке.
-- **Week 12:** дополнительные проверки безопасности и интеграция клиента.
+- **Week 12:** по следующему заданию — интеграция стратегии с Vault, модель
+  владения Position NFT, учёт вложенных активов, безопасные CPI increase/decrease
+  liquidity и соответствующие проверки. Текущая позиция остаётся у кошелька.
 - **Week 13:** итоговые сценарии, документация и демонстрация.
 
-Пункты Week 11–13 — предварительный план: подробная методичка этих недель
+Пункты Week 12–13 — предварительный план: подробная методичка этих недель
 не предоставлена. Их реализация не входит в текущую работу.
